@@ -24,6 +24,8 @@ void drawTerrain(){
   noStroke();
   noLights();
   fill(0,255,100);
+  
+  pushMatrix();
   translate(width/2,height/2);
   rotateX(PI/3);
   translate(-w/2,-h/2);
@@ -36,5 +38,5 @@ void drawTerrain(){
     }
     endShape();
   }
-  rotateX(-PI/3);
+  popMatrix();
 }

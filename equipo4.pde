@@ -1,6 +1,7 @@
 void setup() {
   size(600, 600, P3D);
   watertxt = loadImage("water.png");
+  plankstxt = loadImage("planks.png");
   textureMode(NORMAL);
   noSmooth();
 }
