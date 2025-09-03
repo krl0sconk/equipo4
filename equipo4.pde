@@ -1,5 +1,6 @@
 void setup() {
   size(600, 600, P3D);
+  watertxt = loadImage("water.png");
   textureMode(NORMAL);
   noSmooth();
 }
