@@ -8,7 +8,7 @@
   PImage watertxt;
 
 
-void drawTerrain(){
+void drawWater(){
   movement -= 0.01;
   float yoffset = movement;
   //Bucle para generar los valores Z con el perlin noise y un offset 
