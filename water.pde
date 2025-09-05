@@ -1,10 +1,4 @@
-  //Variables del terreno
-  int scale = 20;
-  int w=2400,h=1200;
-  int cols = w /scale;
-  int rows = h/ scale;
-  float[][] terrain = new float[cols][rows];;
-  float movement = 0;
+  //Variables del agua
   PImage watertxt;
 
 
