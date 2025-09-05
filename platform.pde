@@ -5,12 +5,7 @@ float offsetY = 0;
 void drawPlatform() {
   pushMatrix();
   translate(width / 2, height / 2);
-  rotateX(PI / 3);
-  translate(0, -150, 50);
-  beginShape();  
-  texture(plankstxt);
-  textureWrap(REPEAT); 
- 
+  rotateX(PI / 3); 
   offsetY += 0.03;
   vertex(-75, -400, 0 , 0 - offsetY);       // Vértice superior izquierdo
   vertex(75, -400, 6, 0 - offsetY);         // Vértice superior derecho

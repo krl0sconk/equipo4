@@ -1,5 +1,7 @@
 PImage skytxt;
+
 void setup() {
+  grasstxt = loadImage("grass.png");
   size(1280, 720, P3D);
   watertxt = loadImage("water.png");
   plankstxt = loadImage("planks.png");
