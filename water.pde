@@ -1,8 +1,13 @@
-  //Variables del agua
-  PImage watertxt;
+//Variables del agua
+PImage watertxt;
+  
+void setupWater(){
+   watertxt = loadImage("water.png");
+}
 
 
 void drawWater(){
+  background(skytxt);
   movement -= 0.01;
   float yoffset = movement;
   //Bucle para generar los valores Z con el perlin noise y un offset 

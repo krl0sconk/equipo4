@@ -6,8 +6,29 @@ int rows = h/ scale;
 float[][] terrain  = new float[cols][rows];
 float movement = 0;
 PImage grasstxt;
+PImage endskytxt;
+PImage skytxt;
+PImage endtxt;
+PImage terraintxt;
 
-void drawTerrain() {
+void setupTerrain(){
+    grasstxt = loadImage("grass.png");
+    skytxt = loadImage("sky.png");
+    endskytxt = loadImage("end.png");
+    endtxt = loadImage("end-stone.jpg");
+}
+
+void drawTerrain(int level) {
+  switch (level){
+    case 1:
+     background(skytxt);
+     terraintxt = grasstxt;
+     break;
+    case 2:
+     background(endskytxt);
+     terraintxt = endtxt;
+     break;
+  }
   movement -= 0.05; 
   float yoffset = movement;
 
@@ -37,7 +58,7 @@ void drawTerrain() {
       
       pushMatrix();
       translate(x * scale, y * scale, currentHeight); 
-      drawTexturedCube(scale, grasstxt); 
+      drawTexturedCube(scale, terraintxt); 
       popMatrix();
     }
   }

@@ -1,14 +1,28 @@
 // Variables de la plataforma
 PImage plankstxt;
 float offsetY = 0;
+PImage purpur_blocktxt;
 
-void drawPlatform() {
+void setupPlatform(){
+    plankstxt = loadImage("planks.png");
+    purpur_blocktxt = loadImage("purpur-block.jpg");
+}
+void drawPlatform(int level) {
   pushMatrix();
   translate(width / 2, height / 2);
   rotateX(PI / 3);
   translate(0, -150, 80);
   beginShape();  
-  texture(plankstxt);
+  switch (level){
+    case 1:
+     texture(plankstxt);
+     break;
+    case 2:
+     texture(purpur_blocktxt);
+     break;
+    default:
+     texture(plankstxt);
+  }
   textureWrap(REPEAT); 
 
   offsetY += 0.03;
