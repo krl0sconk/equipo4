@@ -5,15 +5,15 @@ void setup() {
   setupTerrain();
   setupPlatform();
   setupWater();
+  setupPlayer();
   textureMode(NORMAL);
   noSmooth();
-  level = 2;
+  level = 0;
 }
 
 void draw() {
 
-  directionalLight(255, 255, 255, 1, 1, 0);
-
+  directionalLight(255, 255, 255, 1, 1, -1);
   switch (level) {
   case 0:
     drawWater();
@@ -23,4 +23,5 @@ void draw() {
     break;
   }
   drawPlatform(level);
+  drawPlayer(1);
 }
