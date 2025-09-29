@@ -14,6 +14,31 @@ void setupPlayer() {
     steve[i].setTexture(stevetxt);
   }
 }
+float personajeX = 640;
+float velocidad = 5;
+float limiteIzq = 540;
+float limiteDer = 740;
+void moverPersonaje() {
+  if (keyPressed) {
+    print("se lee");
+    if (keyCode == RIGHT || key == 'd') {
+      personajeX += velocidad;
+    } else if (keyCode == LEFT || key == 'a') {
+      personajeX -= velocidad;
+    }
+  }
+
+  if (mousePressed) {
+    if (mouseX > personajeX) {
+      personajeX += velocidad;
+    } else if (mouseX < personajeX) {
+      personajeX -= velocidad;
+    }
+  }
+
+  personajeX = constrain(personajeX, limiteIzq, limiteDer);
+}
+
 void drawPlayer(int state) {
 
   if (state != 0) {
@@ -22,7 +47,7 @@ void drawPlayer(int state) {
     }
   }
   pushMatrix();
-  translate(width/2, height/2);
+  translate(personajeX, height/2);
   rotateZ(PI);
   rotateY(PI/2);
   rotateZ(PI/6);

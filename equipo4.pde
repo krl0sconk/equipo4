@@ -8,7 +8,7 @@ void setup() {
   setupPlayer();
   textureMode(NORMAL);
   noSmooth();
-  level = 0;
+  level = 2;
 }
 
 void draw() {
@@ -22,6 +22,7 @@ void draw() {
     drawTerrain(level);
     break;
   }
+  moverPersonaje();
   drawPlatform(level);
   drawPlayer(1);
 }
