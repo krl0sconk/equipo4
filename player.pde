@@ -10,7 +10,7 @@ void setupPlayer() {
   hint(DISABLE_TEXTURE_MIPMAPS);
   stevetxt = loadImage("steve.png");
   for (int i = 0; i <= 3; i++) {
-    steve[i] = loadShape("steve" + (i) + ".obj");
+    steve[i] = loadShape("steve" + i + ".obj");
     steve[i].setTexture(stevetxt);
   }
 }
@@ -20,7 +20,6 @@ float limiteIzq = 540;
 float limiteDer = 740;
 void moverPersonaje() {
   if (keyPressed) {
-    print("se lee");
     if (keyCode == RIGHT || key == 'd') {
       personajeX += velocidad;
     } else if (keyCode == LEFT || key == 'a') {
@@ -51,7 +50,7 @@ void drawPlayer(int state) {
   rotateZ(PI);
   rotateY(PI/2);
   rotateZ(PI/6);
-  translate(-250, 90, 0);
+  translate(-250, 70, 0);
   scale(50);
   shape(steve[currentFrame]);
   popMatrix();

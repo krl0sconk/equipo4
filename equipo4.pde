@@ -6,23 +6,32 @@ void setup() {
   setupPlatform();
   setupWater();
   setupPlayer();
+  setupDiamonds();    
+  setupObstacles();  
+  setupSpawner();
   textureMode(NORMAL);
   noSmooth();
-  level = 2;
+  level = 0;
 }
 
 void draw() {
 
-  directionalLight(255, 255, 255, 1, 1, -1);
   switch (level) {
   case 0:
     drawWater();
+    directionalLight(255, 255, 255, 1, 1, -1);
     break;
   default:
+    directionalLight(255, 255, 255, 1, 1, -1);
     drawTerrain(level);
     break;
   }
   moverPersonaje();
   drawPlatform(level);
+  updateSpawner();   
+  updateDiamonds();   
+  updateObstacles();  
+  drawDiamonds();     
+  drawObstacles();
   drawPlayer(1);
 }
