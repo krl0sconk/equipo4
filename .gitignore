@@ -9,3 +9,7 @@ application.windows64
 application.macosx
 out
 equipo4697830683916116781.autosave
+
+# Claude Code
+.claude/
+CLAUDE.md

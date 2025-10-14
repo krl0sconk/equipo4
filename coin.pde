@@ -6,8 +6,8 @@ ArrayList<Float> diamondY = new ArrayList<Float>();
 ArrayList<Float> diamondRotation = new ArrayList<Float>();
 
 void setupDiamonds() {
-  diamondTexture = loadImage("zombie.png");
-  diamondModel = loadShape("zombie0.obj");
+  diamondTexture = loadImage("diamond.png");
+  diamondModel = loadShape("diamond.obj");
   diamondModel.setTexture(diamondTexture);
   
   diamondX = new ArrayList<Float>();
@@ -35,10 +35,11 @@ void drawDiamonds() {
     pushMatrix();
     translate(width / 2, height / 2);
     rotateX(PI / 3);
-    translate(diamondX.get(i), diamondY.get(i), 80);
+    translate(diamondX.get(i), diamondY.get(i), 120);
+    rotateX(PI / 2);
     rotateY(diamondRotation.get(i));
-    scale(20);
-    shape(diamondModel);    
+    scale(50);
+    shape(diamondModel);
     popMatrix();
   }
 }
