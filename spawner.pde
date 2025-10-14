@@ -6,11 +6,11 @@ int minSpawnInterval = 60;
 int maxSpawnInterval = 120;
 
 // Probabilidades
-float diamondProbability = 0.6; 
-float obstacleProbability = 0.4; 
+float diamondProbability = 0.5; 
+float obstacleProbability = 0.5; 
 
 // Posiciones X posibles
-float[] lanePositions = {-90, -30, 30, 90};
+float[] lanePositions = {-80, -25, 30, 80};
 
 // Variables para spawning de diamantes en fila
 boolean spawningDiamondTrail = false;
@@ -128,8 +128,25 @@ void displaySpawnerDebug() {
   text("Obstacles: " + obstacleX.size(), 10, 40);
   text("Next spawn: " + (spawnInterval - (frameCount - lastSpawnTime)), 10, 60);
   text("Obstacle types: " + obstacleNames.length, 10, 80);
-  
+
   if (spawningDiamondTrail) {
     text("Diamond trail: " + diamondTrailCount + "/" + maxDiamondsInTrail, 10, 100);
   }
+}
+
+void drawLaneDebugCubes() {
+  pushMatrix();
+  translate(width / 2, height / 2);
+  rotateX(PI / 3);
+
+  for (int i = 0; i < lanePositions.length; i++) {
+    pushMatrix();
+    translate(lanePositions[i], 0, 120);
+    fill(255, 0, 0, 100);
+    stroke(255, 0, 0);
+    box(20);
+    popMatrix();
+  }
+
+  popMatrix();
 }

@@ -5,6 +5,9 @@ ArrayList<Float> diamondX = new ArrayList<Float>();
 ArrayList<Float> diamondY = new ArrayList<Float>();
 ArrayList<Float> diamondRotation = new ArrayList<Float>();
 
+float diamondSpeed = 5;
+float diamondRotationSpeed = 0.05;
+
 void setupDiamonds() {
   diamondTexture = loadImage("diamond.png");
   diamondModel = loadShape("diamond.obj");
@@ -17,8 +20,8 @@ void setupDiamonds() {
 
 void updateDiamonds() {
   for (int i = diamondX.size() - 1; i >= 0; i--) {
-    diamondY.set(i, diamondY.get(i) + 3);
-    float newRotation = diamondRotation.get(i) + 0.05;
+    diamondY.set(i, diamondY.get(i) + diamondSpeed);
+    float newRotation = diamondRotation.get(i) + diamondRotationSpeed;
     diamondRotation.set(i, newRotation);
     
     // Eliminar 

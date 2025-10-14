@@ -19,19 +19,18 @@ void draw() {
   switch (level) {
   case 0:
     drawWater();
-    directionalLight(255, 255, 255, 1, 1, -1);
     break;
   default:
-    directionalLight(255, 255, 255, 1, 1, -1);
     drawTerrain(level);
     break;
   }
   moverPersonaje();
   drawPlatform(level);
-  updateSpawner();   
-  updateDiamonds();   
-  updateObstacles();  
-  drawDiamonds();     
+  updateSpawner();
+  updateDiamonds();
+  updateObstacles();
+  drawDiamonds();
   drawObstacles();
+  //drawLaneDebugCubes();
   drawPlayer(1);
 }
