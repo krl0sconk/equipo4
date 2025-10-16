@@ -1,5 +1,8 @@
 int level = 0;
 int estado = 0;
+
+HitboxPlayer hitboxPersonaje;
+
 void setup() {
   size(1280, 720, P3D);
   setupmenu();
@@ -7,6 +10,7 @@ void setup() {
   setupPlatform();
   setupWater();
   setupPlayer();
+  hitboxPersonaje = new HitboxPlayer(personajeX, height / 2, 50, 100, -25, -50); // depende el modelo
   textureMode(NORMAL);
   noSmooth();
   level = 1;
@@ -34,7 +38,7 @@ void draw() {
     Configuracion();
   }
   
-  
+  hitboxPersonaje.actualizar(personajeX, height / 2);
   
 }
 
