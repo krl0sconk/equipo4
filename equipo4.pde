@@ -13,18 +13,10 @@ void setup() {
   setupDiamonds();    
   setupObstacles();  
   setupSpawner();
-  textureMode(NORMAL);
-  noSmooth();
-  level = 0;
-}
-
-void draw() {
-
-  switch (level) {
   hitboxPersonaje = new HitboxPlayer(personajeX, height / 2, 50, 100, -25, -50); // depende el modelo
   textureMode(NORMAL);
   noSmooth();
-  level = 1;
+  level = 2;
 }
 
 void draw() {
