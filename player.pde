@@ -66,9 +66,9 @@ void drawPlayer(int state) {
   pushMatrix();
   translate(personajeX, height / 2);
   rotateZ(PI);
-  rotateY(PI / 2);
-  rotateZ(PI / 6);
-  translate(-250, 90, 0);
+  rotateY(PI/2);
+  rotateZ(PI/6);
+  translate(-250, 70, 0);
   scale(50);
   shape(steve[currentFrame]);
   popMatrix();

@@ -25,7 +25,7 @@ void drawPlatform(int level) {
   }
   textureWrap(REPEAT); 
 
-  offsetY += 0.03;
+  offsetY += 0.05;
   vertex(-120, -400, 0 , 0 - offsetY);       // Vértice superior izquierdo
   vertex(120, -400, 6, 0 - offsetY);         // Vértice superior derecho
   vertex(120, 700, 6 , 6 - offsetY);         // Vértice inferior derecho

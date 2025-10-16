@@ -10,6 +10,17 @@ void setup() {
   setupPlatform();
   setupWater();
   setupPlayer();
+  setupDiamonds();    
+  setupObstacles();  
+  setupSpawner();
+  textureMode(NORMAL);
+  noSmooth();
+  level = 0;
+}
+
+void draw() {
+
+  switch (level) {
   hitboxPersonaje = new HitboxPlayer(personajeX, height / 2, 50, 100, -25, -50); // depende el modelo
   textureMode(NORMAL);
   noSmooth();
@@ -31,6 +42,12 @@ void draw() {
   }
     moverPersonaje();
   drawPlatform(level);
+  updateSpawner();
+  updateDiamonds();
+  updateObstacles();
+  drawDiamonds();
+  drawObstacles();
+  //drawLaneDebugCubes();
   drawPlayer(1);
   } else if (estado == 2) {
     Tutorial();
