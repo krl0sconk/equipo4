@@ -21,7 +21,7 @@ void setup() {
   hitboxPersonaje = new HitboxPlayer(personajeX, height /2, HITBOX_W, HITBOX_H, HITBOX_OFFSET_X, HITBOX_OFFSET_Y);
   textureMode(NORMAL);
   noSmooth();
-  level = 2;
+  level = 1;
 }
 
 void draw() {
@@ -30,15 +30,17 @@ void draw() {
   } else if (estado == 1) {
     directionalLight(255, 255, 255, 1, 1, -1);
     switch (level) {
-  case 0:
+  case 2:
     drawWater();
+    drawPlatform(level);
     break;
   default:
     drawTerrain(level);
+    drawPlatform(level);
     break;
   }
   moverPersonaje();
-  drawPlatform(level);
+  
   updateSpawner();
   updateDiamonds();
   updateObstacles();
@@ -123,8 +125,8 @@ void checkDiamondCollision() {
   }
 }
 boolean checkObstacleCollision() {
-  float obstacleHitboxW = 80.0;
-  float obstacleHitboxH = 80.0;
+  float obstacleHitboxW = 70.0;
+  float obstacleHitboxH = 70.0;
   for (int i = obstacleX.size() - 1; i >= 0; i--) {
     float obstacleX_Proyectado = obstacleX.get(i) + width / 2;
     float obstacleY_Proyectado = obstacleY.get(i) + height / 2;
