@@ -17,7 +17,7 @@ void drawPlatform(int level) {
     case 1:
      texture(plankstxt);
      break;
-    case 2:
+    case 3:
      texture(purpur_blocktxt);
      break;
     default:

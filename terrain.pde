@@ -24,7 +24,7 @@ void drawTerrain(int level) {
      background(skytxt);
      terraintxt = grasstxt;
      break;
-    case 2:
+    case 3:
      background(endskytxt);
      terraintxt = endtxt;
      break;
