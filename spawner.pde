@@ -5,9 +5,12 @@ int spawnInterval = 80;
 int minSpawnInterval = 60;
 int maxSpawnInterval = 120;
 
+// Spawner control
+boolean spawnerPaused = false;
+
 // Probabilidades
-float diamondProbability = 0.5; 
-float obstacleProbability = 0.5; 
+float diamondProbability = 0.5;
+float obstacleProbability = 0.5;
 
 // Posiciones X posibles
 float[] lanePositions = {-80, -25, 30, 80};
@@ -25,11 +28,16 @@ void setupSpawner() {
 }
 
 void updateSpawner() {
+  // Don't spawn if paused
+  if (spawnerPaused) {
+    return;
+  }
+
   if (spawningDiamondTrail) {
     updateDiamondTrail();
     return;
   }
-  
+
   // Verificar si es tiempo de spawnear un nuevo objeto
   if (frameCount - lastSpawnTime >= spawnInterval) {
     spawnRandomObject();
@@ -149,4 +157,17 @@ void drawLaneDebugCubes() {
   }
 
   popMatrix();
+}
+
+// Boss phase control functions
+void pauseSpawner() {
+  spawnerPaused = true;
+  spawningDiamondTrail = false;
+  println("Spawner paused for boss phase");
+}
+
+void resumeSpawner() {
+  spawnerPaused = false;
+  lastSpawnTime = frameCount;
+  println("Spawner resumed");
 }

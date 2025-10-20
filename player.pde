@@ -28,6 +28,9 @@ void keyPressed() {
     moverDerecha = true;
   } else if (keyCode == LEFT || key == 'a') {
     moverIzquierda = true;
+  } else if (key == ' ' && gamePhase == PHASE_BOSS) {
+    // Spacebar to shoot in boss phase
+    shootProjectile();
   }
 }
 
@@ -47,8 +50,9 @@ void moverPersonaje() {
   if (moverIzquierda) {
     personajeX -= velocidad;
   }
-  
-  if (mousePressed) {
+
+  // Mouse movement only in normal phase (not during boss fight for better aiming)
+  if (mousePressed && gamePhase == PHASE_NORMAL) {
     float distancia = mouseX - personajeX;
     personajeX += distancia * 0.1;
   }
