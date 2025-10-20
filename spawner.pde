@@ -1,34 +1,27 @@
+float spawnTimer = 0;
+float spawnInterval = 1.33; // Segundos
+float minSpawnInterval = 1.0;
+float maxSpawnInterval = 2.0;
 
-// Variables del spawner
-int lastSpawnTime = 0;
-int spawnInterval = 80;
-int minSpawnInterval = 60;
-int maxSpawnInterval = 120;
-
-// Spawner control
 boolean spawnerPaused = false;
 
-// Probabilidades
 float diamondProbability = 0.5;
 float obstacleProbability = 0.5;
 
-// Posiciones X posibles
 float[] lanePositions = {-80, -25, 30, 80};
 
-// Variables para spawning de diamantes en fila
 boolean spawningDiamondTrail = false;
 int diamondTrailCount = 0;
 int maxDiamondsInTrail = 5;
-int diamondTrailInterval = 15;
-int lastDiamondTrailSpawn = 0;
+float diamondTrailInterval = 0.25; // Segundos
+float diamondTrailTimer = 0;
 float diamondTrailLane = 0;
 
 void setupSpawner() {
-  lastSpawnTime = frameCount;
+  spawnTimer = 0;
 }
 
 void updateSpawner() {
-  // Don't spawn if paused
   if (spawnerPaused) {
     return;
   }
@@ -38,11 +31,11 @@ void updateSpawner() {
     return;
   }
 
-  // Verificar si es tiempo de spawnear un nuevo objeto
-  if (frameCount - lastSpawnTime >= spawnInterval) {
+  spawnTimer += deltaTime;
+  if (spawnTimer >= spawnInterval) {
     spawnRandomObject();
-    lastSpawnTime = frameCount;
-    spawnInterval = int(random(minSpawnInterval, maxSpawnInterval));
+    spawnTimer = 0;
+    spawnInterval = random(minSpawnInterval, maxSpawnInterval);
   }
 }
 
@@ -74,16 +67,17 @@ void spawnDiamondPattern() {
 void startDiamondTrail() {
   spawningDiamondTrail = true;
   diamondTrailCount = 0;
-  lastDiamondTrailSpawn = frameCount;
+  diamondTrailTimer = 0;
   diamondTrailLane = getRandomLane();
 }
 
 void updateDiamondTrail() {
-  if (frameCount - lastDiamondTrailSpawn >= diamondTrailInterval) {
+  diamondTrailTimer += deltaTime;
+  if (diamondTrailTimer >= diamondTrailInterval) {
     spawnDiamond(diamondTrailLane);
     diamondTrailCount++;
-    lastDiamondTrailSpawn = frameCount;
-    
+    diamondTrailTimer = 0;
+
     if (diamondTrailCount >= maxDiamondsInTrail) {
       spawningDiamondTrail = false;
     }
@@ -122,52 +116,18 @@ float getRandomLane() {
 }
 
 void increaseDifficulty() {
-  if (minSpawnInterval > 30) {
-    minSpawnInterval--;
-    maxSpawnInterval--;
+  if (minSpawnInterval > 0.5) {
+    minSpawnInterval -= 0.017; // ~1 frame
+    maxSpawnInterval -= 0.017;
   }
 }
 
-// Debug (opcional)
-void displaySpawnerDebug() {
-  fill(255);
-  textSize(14);
-  text("Diamonds: " + diamondX.size(), 10, 20);
-  text("Obstacles: " + obstacleX.size(), 10, 40);
-  text("Next spawn: " + (spawnInterval - (frameCount - lastSpawnTime)), 10, 60);
-  text("Obstacle types: " + obstacleNames.length, 10, 80);
-
-  if (spawningDiamondTrail) {
-    text("Diamond trail: " + diamondTrailCount + "/" + maxDiamondsInTrail, 10, 100);
-  }
-}
-
-void drawLaneDebugCubes() {
-  pushMatrix();
-  translate(width / 2, height / 2);
-  rotateX(PI / 3);
-
-  for (int i = 0; i < lanePositions.length; i++) {
-    pushMatrix();
-    translate(lanePositions[i], 0, 120);
-    fill(255, 0, 0, 100);
-    stroke(255, 0, 0);
-    box(20);
-    popMatrix();
-  }
-
-  popMatrix();
-}
-
-// Boss phase control functions
 void pauseSpawner() {
   spawnerPaused = true;
   spawningDiamondTrail = false;
-  println("Spawner paused for boss phase");
 }
 
 void resumeSpawner() {
   spawnerPaused = false;
-  lastSpawnTime = frameCount;
-  println("Spawner resumed");
+  spawnTimer = 0;
 }

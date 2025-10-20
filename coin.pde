@@ -5,8 +5,8 @@ ArrayList<Float> diamondX = new ArrayList<Float>();
 ArrayList<Float> diamondY = new ArrayList<Float>();
 ArrayList<Float> diamondRotation = new ArrayList<Float>();
 
-float diamondSpeed = 5;
-float diamondRotationSpeed = 0.05;
+float diamondSpeed = 500.0; // Pixels por segundo
+float diamondRotationSpeed = 3.0; // Radianes por segundo
 
 void setupDiamonds() {
   diamondTexture = loadImage("diamond.png");
@@ -20,11 +20,10 @@ void setupDiamonds() {
 
 void updateDiamonds() {
   for (int i = diamondX.size() - 1; i >= 0; i--) {
-    diamondY.set(i, diamondY.get(i) + diamondSpeed);
-    float newRotation = diamondRotation.get(i) + diamondRotationSpeed;
+    diamondY.set(i, diamondY.get(i) + diamondSpeed * deltaTime);
+    float newRotation = diamondRotation.get(i) + diamondRotationSpeed * deltaTime;
     diamondRotation.set(i, newRotation);
-    
-    // Eliminar 
+
     if (diamondY.get(i) > 700) {
       diamondX.remove(i);
       diamondY.remove(i);

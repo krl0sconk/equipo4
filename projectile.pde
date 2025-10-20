@@ -1,12 +1,11 @@
-// Projectile system
 ArrayList<Float> projectileX = new ArrayList<Float>();
 ArrayList<Float> projectileY = new ArrayList<Float>();
 ArrayList<Float> projectileZ = new ArrayList<Float>();
 
-float projectileSpeed = 15;
+float projectileSpeed = 900.0; // Pixels por segundo
 float projectileSize = 10;
-int shootCooldown = 0;
-int cooldownTime = 15; // frames between shots
+float shootCooldown = 0;
+float cooldownTime = 0.25; // Segundos entre disparos
 
 void setupProjectiles() {
   projectileX = new ArrayList<Float>();
@@ -15,16 +14,14 @@ void setupProjectiles() {
 }
 
 void updateProjectiles() {
-  // Update cooldown
   if (shootCooldown > 0) {
-    shootCooldown--;
+    shootCooldown -= deltaTime;
+    if (shootCooldown < 0) shootCooldown = 0;
   }
 
-  // Move all projectiles away from player (negative Y direction in world space)
   for (int i = projectileX.size() - 1; i >= 0; i--) {
-    projectileY.set(i, projectileY.get(i) - projectileSpeed);
+    projectileY.set(i, projectileY.get(i) - projectileSpeed * deltaTime);
 
-    // Remove projectiles that went too far
     if (projectileY.get(i) < -1000) {
       projectileX.remove(i);
       projectileY.remove(i);
@@ -32,11 +29,9 @@ void updateProjectiles() {
       continue;
     }
 
-    // Check collision with boss
     if (bossInCombat) {
       if (checkProjectileBossCollision(i)) {
         bossTakeDamage(1);
-        // Remove projectile on hit
         projectileX.remove(i);
         projectileY.remove(i);
         projectileZ.remove(i);
@@ -52,7 +47,6 @@ void drawProjectiles() {
     rotateX(PI / 3);
     translate(projectileX.get(i), projectileY.get(i), projectileZ.get(i));
 
-    // Draw projectile as glowing sphere/cube
     fill(255, 255, 0);
     stroke(255, 200, 0);
     strokeWeight(2);
@@ -63,23 +57,17 @@ void drawProjectiles() {
 }
 
 void shootProjectile() {
-  if (shootCooldown > 0) {
-    println("Cooldown active, cannot shoot yet!");
-    return;
-  }
+  if (shootCooldown > 0) return;
 
-  // Spawn projectile at player position
-  // Convert player screen X to world X (offset from center)
   float worldX = personajeX - width / 2;
-  float worldY = 100; // Slightly in front of player
-  float worldZ = 120; // Same Z as boss
+  float worldY = 100;
+  float worldZ = 120;
 
   projectileX.add(worldX);
   projectileY.add(worldY);
   projectileZ.add(worldZ);
 
   shootCooldown = cooldownTime;
-  println("Projectile fired! Active projectiles: " + projectileX.size());
 }
 
 boolean checkProjectileBossCollision(int projectileIndex) {
@@ -87,10 +75,7 @@ boolean checkProjectileBossCollision(int projectileIndex) {
   float py = projectileY.get(projectileIndex);
   float pz = projectileZ.get(projectileIndex);
 
-  // Simple 3D distance check
   float distance = dist(px, py, pz, bossX, bossY, bossZ);
-
-  // Collision if distance is less than combined radii
   float collisionDistance = projectileSize + bossSize / 2;
 
   return distance < collisionDistance;
@@ -103,7 +88,6 @@ void clearAllProjectiles() {
   shootCooldown = 0;
 }
 
-// Visual indicator for cooldown
 void drawShootCooldown() {
   if (shootCooldown <= 0) return;
 
@@ -115,17 +99,14 @@ void drawShootCooldown() {
   float barX = width / 2 - barWidth / 2;
   float barY = height - 50;
 
-  // Background
   fill(50);
   noStroke();
   rect(barX, barY, barWidth, barHeight);
 
-  // Cooldown fill
-  float cooldownPercent = 1.0 - ((float)shootCooldown / cooldownTime);
+  float cooldownPercent = 1.0 - (shootCooldown / cooldownTime);
   fill(0, 255, 0);
   rect(barX, barY, barWidth * cooldownPercent, barHeight);
 
-  // Text
   fill(255);
   textAlign(CENTER, CENTER);
   textSize(12);

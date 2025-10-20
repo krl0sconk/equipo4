@@ -1,24 +1,27 @@
 class HitboxPlayer {
-  float w, h;        
-  float offsetX, offsetY; 
-  float posX, posY;  
-  int collisionCounter = 0; 
-  float debugBoxW = 0.5;      
-  float debugBoxH = 2.5;      
-  float debugBoxD = 0.5;      
-  float debugBoxYOffsetLocal = -0.5; 
+  float w, h;
+  float offsetX, offsetY;
+  float posX, posY;
+  int collisionCounter = 0;
+  float debugBoxW = 0.5;
+  float debugBoxH = 2.5;
+  float debugBoxD = 0.5;
+  float debugBoxYOffsetLocal = -0.5;
+
   HitboxPlayer(float initialX, float initialY, float width, float height, float ox, float oy) {
-    this.posX = initialX + ox; 
+    this.posX = initialX + ox;
     this.posY = initialY + oy;
     this.w = width;
     this.h = height;
     this.offsetX = ox;
     this.offsetY = oy;
   }
+
   void actualizar(float newPersonajeX, float newPersonajeY) {
     this.posX = newPersonajeX + this.offsetX;
     this.posY = newPersonajeY + this.offsetY;
   }
+
   void mostrar3D() {
     pushStyle();
     noFill();
@@ -27,13 +30,13 @@ class HitboxPlayer {
     } else {
       stroke(0, 255, 0);
     }
-    strokeWeight(1 / 50.0); 
-    translate(0, this.debugBoxYOffsetLocal, 0); 
-    box(this.debugBoxW, this.debugBoxH, this.debugBoxD); 
+    strokeWeight(1 / 50.0);
+    translate(0, this.debugBoxYOffsetLocal, 0);
+    box(this.debugBoxW, this.debugBoxH, this.debugBoxD);
     popStyle();
   }
+
   boolean colisionaCon(float otherX, float otherY, float otherW, float otherH) {
-    // Coordenadas de la Hitbox del Jugador (R1) - Esquina superior izquierda
     float r1x = this.posX - (this.w / 2);
     float r1y = this.posY - (this.h / 2);
     float r1w = this.w;

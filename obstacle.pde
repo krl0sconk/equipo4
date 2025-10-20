@@ -1,18 +1,16 @@
-// Lista de nombres de obstáculos
 String[] obstacleNames = {"creeper", "zombie"};
 
-// Modelos
 PShape[][] obstacleModels;
 PImage[] obstacleTextures;
 
-// Listas de obstáculos activos en el juego
 ArrayList<Float> obstacleX = new ArrayList<Float>();
 ArrayList<Float> obstacleY = new ArrayList<Float>();
 ArrayList<Integer> obstacleType = new ArrayList<Integer>();
 ArrayList<Integer> obstacleFrame = new ArrayList<Integer>();
+ArrayList<Float> obstacleAnimationTimer = new ArrayList<Float>();
 
-float obstacleSpeed = 5;
-int obstacleAnimationSpeed = 4;
+float obstacleSpeed = 500.0; // Pixels por segundo
+float obstacleAnimationSpeed = 0.067; // ~4 frames a 60fps
 
 void setupObstacles() {
   obstacleModels = new PShape[obstacleNames.length][4];
@@ -33,26 +31,29 @@ void setupObstacles() {
   obstacleY = new ArrayList<Float>();
   obstacleType = new ArrayList<Integer>();
   obstacleFrame = new ArrayList<Integer>();
-
-  println("Obstáculos cargados: " + obstacleNames.length);
+  obstacleAnimationTimer = new ArrayList<Float>();
 }
 
 void updateObstacles() {
   for (int i = obstacleX.size() - 1; i >= 0; i--) {
-    obstacleY.set(i, obstacleY.get(i) + obstacleSpeed);
+    obstacleY.set(i, obstacleY.get(i) + obstacleSpeed * deltaTime);
 
-    if (frameCount % obstacleAnimationSpeed == 0) {
+    float timer = obstacleAnimationTimer.get(i) + deltaTime;
+    obstacleAnimationTimer.set(i, timer);
+
+    if (timer >= obstacleAnimationSpeed) {
       int currentFrame = obstacleFrame.get(i);
       int nextFrame = (currentFrame + 1) % 4;
       obstacleFrame.set(i, nextFrame);
+      obstacleAnimationTimer.set(i, 0.0);
     }
 
-    // Eliminar
     if (obstacleY.get(i) > 700) {
       obstacleX.remove(i);
       obstacleY.remove(i);
       obstacleType.remove(i);
       obstacleFrame.remove(i);
+      obstacleAnimationTimer.remove(i);
     }
   }
 }
@@ -71,12 +72,11 @@ void drawObstacles() {
   }
 }
 
-// Spawnear obstáculo aleatorio
 void spawnObstacle(float xPos) {
   int randomType = int(random(obstacleNames.length));
-  println("Spawneando obstáculo tipo: " + obstacleNames[randomType]);
   obstacleX.add(xPos);
   obstacleY.add(-400.0);
   obstacleType.add(randomType);
   obstacleFrame.add(0);
+  obstacleAnimationTimer.add(0.0);
 }

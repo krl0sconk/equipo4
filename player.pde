@@ -1,11 +1,11 @@
 PShape[] steve = new PShape[4];
 PImage stevetxt;
 int currentFrame = 0;
-int animationSpeed = 7;
-int stevestate = 0;
+float animationTimer = 0;
+float animationSpeed = 0.117; // ~7 frames a 60fps
 
 float personajeX = 640;
-float velocidad = 5;
+float velocidad = 300.0; // Pixels por segundo
 float limiteIzq = 540;
 float limiteDer = 740;
 
@@ -29,7 +29,6 @@ void keyPressed() {
   } else if (keyCode == LEFT || key == 'a') {
     moverIzquierda = true;
   } else if (key == ' ' && gamePhase == PHASE_BOSS) {
-    // Spacebar to shoot in boss phase
     shootProjectile();
   }
 }
@@ -43,15 +42,14 @@ void keyReleased() {
 }
 
 void moverPersonaje() {
-  // Movimiento con teclado
   if (moverDerecha) {
-    personajeX += velocidad;
+    personajeX += velocidad * deltaTime;
   }
   if (moverIzquierda) {
-    personajeX -= velocidad;
+    personajeX -= velocidad * deltaTime;
   }
 
-  // Mouse movement only in normal phase (not during boss fight for better aiming)
+  // Movimiento con ratón solo en fase normal
   if (mousePressed && gamePhase == PHASE_NORMAL) {
     float distancia = mouseX - personajeX;
     personajeX += distancia * 0.1;
@@ -62,8 +60,10 @@ void moverPersonaje() {
 
 void drawPlayer(int state) {
   if (state != 0) {
-    if (frameCount % animationSpeed == 0) {
+    animationTimer += deltaTime;
+    if (animationTimer >= animationSpeed) {
       currentFrame = (currentFrame + 1) % steve.length;
+      animationTimer = 0;
     }
   }
 
