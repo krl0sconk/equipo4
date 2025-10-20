@@ -27,7 +27,7 @@ float bossFightTime = 0;
 
 
 void setup() {
-  fullScreen(P3D);
+  size(1280, 720, P3D);
   setupmenu();
   setupTerrain();
   setupPlatform();
