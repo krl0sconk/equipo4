@@ -122,7 +122,7 @@ void draw() {
     // UI
     fill(255);
     textSize(24);
-    text("Puntuación: " + score, 10, 30);
+    text("Puntuacion: " + score, 10, 30);
 
     if (gamePhase == PHASE_BOSS) {
       fill(255, 0, 0);
@@ -147,11 +147,47 @@ void draw() {
   } else if (estado == 3) {
     Configuracion();
   } else if (estado == 99) {
-    fill(255, 0, 0);
-    textSize(64);
-    textAlign(CENTER, CENTER);
-    text("GAME OVER", width/2, height/2);
-    textAlign(LEFT, BASELINE);
+  background(0);
+  // Título GAME OVER
+  fill(255, 50, 50);
+  textSize(72);
+  textAlign(CENTER, CENTER);
+  text("GAME OVER", width/2, height/2 - 100);
+  // Puntuación final
+  fill(255);
+  textSize(32);
+  text("Puntuacion Final: " + score, width/2, height/2 - 20);
+  // Botón TRY AGAIN
+  float btnTryW = 200;
+  float btnTryH = 60;
+  float btnTryX = width/2 - btnTryW/2;
+  float btnTryY = height/2 + 50;
+  if (mouseX > btnTryX && mouseX < btnTryX + btnTryW &&
+      mouseY > btnTryY && mouseY < btnTryY + btnTryH) {
+    fill(100, 200, 100); // hover
+  } else {
+    fill(50, 150, 50);
+  }
+  rect(btnTryX, btnTryY, btnTryW, btnTryH, 10);
+  fill(255);
+  textSize(28);
+  text("TRY AGAIN", width/2, btnTryY + btnTryH/2 + 5);
+  // Botón MENÚ PRINCIPAL
+  float btnMenuW = 280;
+  float btnMenuH = 60;
+  float btnMenuX = width/2 - btnMenuW/2;
+  float btnMenuY = height/2 + 130;
+  if (mouseX > btnMenuX && mouseX < btnMenuX + btnMenuW &&
+      mouseY > btnMenuY && mouseY < btnMenuY + btnMenuH) {
+    fill(100, 100, 200); // hover
+  } else {
+    fill(50, 50, 150);
+  }
+  rect(btnMenuX, btnMenuY, btnMenuW, btnMenuH, 10);
+  fill(255);
+  textSize(24);
+  text("MENU PRINCIPAL", width/2, btnMenuY + btnMenuH/2 + 5);
+  textAlign(LEFT, BASELINE); // restaurar alineación
   } else if (estado == 100) {
     fill(0, 255, 0);
     textSize(64);
@@ -187,6 +223,30 @@ void mousePressed() {
   } else if (estado == 3) {
     if (mouseX < 70 && mouseY < 70) {
       estado = 0;
+    }
+  } else if (estado == 99) {
+    // Botón TRY AGAIN
+    float btnTryW = 200;
+    float btnTryH = 60;
+    float btnTryX = width/2 - btnTryW/2;
+    float btnTryY = height/2 + 50;
+    
+    if (mouseX > btnTryX && mouseX < btnTryX + btnTryW &&
+        mouseY > btnTryY && mouseY < btnTryY + btnTryH) {
+      estado = 1;
+      resetGame();
+    }
+    
+    // Botón MENÚ PRINCIPAL
+    float btnMenuW = 220;
+    float btnMenuH = 60;
+    float btnMenuX = width/2 - btnMenuW/2;
+    float btnMenuY = height/2 + 130;
+    
+    if (mouseX > btnMenuX && mouseX < btnMenuX + btnMenuW &&
+        mouseY > btnMenuY && mouseY < btnMenuY + btnMenuH) {
+      estado = 0;
+      resetGame();
     }
   }
 }
