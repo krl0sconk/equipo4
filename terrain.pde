@@ -40,7 +40,7 @@ void drawTerrain(int level) {
       terrain[x][y] = int(mappedNoise) * scale;
       xoffset += 0.05;
     }
-    yoffset += 0.05;
+    yoffset += 0.03;
   }
 
   pushMatrix();

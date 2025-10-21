@@ -1,7 +1,7 @@
 float spawnTimer = 0;
-float spawnInterval = 1.33; // Segundos
-float minSpawnInterval = 1.0;
-float maxSpawnInterval = 2.0;
+float spawnInterval = 0.3; // Segundos
+float minSpawnInterval = 0.2;
+float maxSpawnInterval = 0.5;
 
 boolean spawnerPaused = false;
 
@@ -12,7 +12,7 @@ float[] lanePositions = {-80, -25, 30, 80};
 
 boolean spawningDiamondTrail = false;
 int diamondTrailCount = 0;
-int maxDiamondsInTrail = 5;
+int maxDiamondsInTrail = 3;
 float diamondTrailInterval = 0.25; // Segundos
 float diamondTrailTimer = 0;
 float diamondTrailLane = 0;
