@@ -41,7 +41,7 @@ void setup() {
   hitboxPersonaje = new HitboxPlayer(personajeX, height /2, HITBOX_W, HITBOX_H, HITBOX_OFFSET_X, HITBOX_OFFSET_Y);
   textureMode(NORMAL);
   noSmooth();
-  level = 3;
+  level = 1;
   lastFrameTime = millis();
 }
 

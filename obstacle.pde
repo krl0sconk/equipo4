@@ -1,6 +1,6 @@
 String[][] levelObstacles = {
   {"creeper", "zombie"},  // Level 0
-  {"creeper", "zombie"},  // Level 1
+  {"creeper", "zombie", "spider"},  // Level 1
   {"creeper", "zombie"},  // Level 2
   {"endermite", "enderman"}   // Level 3 
 };
