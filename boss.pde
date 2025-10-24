@@ -2,22 +2,42 @@ boolean bossVisible = true;
 boolean bossInCombat = false;
 float bossX = 0;
 float bossY = -800;
+float bossTargetY = -200;
 float bossZ = 120;
 float bossSize = 100;
 int bossHealth = 10;
 int bossMaxHealth = 10;
 float bossRotation = 0;
-float bossRotationSpeed = 1.2; // Radianes por segundo
+float bossRotationSpeed = 1.2;
+float bossApproachSpeed = 200.0;
+
+String[] bossNames = {"skeleton", "elderguardian", "dragon"};
+int[] bossMaxFrames = {4, 5, 5};
+PShape[][] bossModels;
+PImage[] bossTextures;
+int bossFrame = 0;
+float bossAnimationTimer = 0;
+float bossAnimationSpeed = 0.067;
 
 color bossColor = color(255, 0, 0);
-PImage bossTexture;
 
 void setupBoss() {
-  try {
-    bossTexture = loadImage("creeper.png");
-  } catch (Exception e) {
-    bossTexture = null;
+  bossModels = new PShape[bossNames.length][];
+  bossTextures = new PImage[bossNames.length];
+
+  for (int i = 0; i < bossNames.length; i++) {
+    String name = bossNames[i];
+    int maxFrames = bossMaxFrames[i];
+
+    bossTextures[i] = loadImage(name + ".png");
+
+    bossModels[i] = new PShape[maxFrames];
+    for (int frame = 0; frame < maxFrames; frame++) {
+      bossModels[i][frame] = loadShape(name + frame + ".obj");
+      bossModels[i][frame].setTexture(bossTextures[i]);
+    }
   }
+
   resetBoss();
 }
 
@@ -28,6 +48,8 @@ void resetBoss() {
   bossY = -800;
   bossHealth = bossMaxHealth;
   bossRotation = 0;
+  bossFrame = 0;
+  bossAnimationTimer = 0;
 }
 
 void startBossCombat() {
@@ -39,31 +61,48 @@ void startBossCombat() {
 
 void updateBoss() {
   if (!bossVisible) return;
-  bossRotation += bossRotationSpeed * deltaTime;
+
+  if (bossInCombat && bossY < bossTargetY) {
+    bossY += bossApproachSpeed * deltaTime;
+    if (bossY > bossTargetY) {
+      bossY = bossTargetY;
+    }
+  }
+
+  bossAnimationTimer += deltaTime;
+  if (bossAnimationTimer >= bossAnimationSpeed) {
+    int bossType = getBossTypeForLevel();
+    int maxFrames = bossMaxFrames[bossType];
+    bossFrame = (bossFrame + 1) % maxFrames;
+    bossAnimationTimer = 0;
+  }
+}
+
+int getBossTypeForLevel() {
+  if (level == 1) return 0;
+  else if (level == 2) return 1;
+  else return 2;
 }
 
 void drawBoss() {
   if (!bossVisible) return;
+
+  int bossType = getBossTypeForLevel();
 
   pushMatrix();
   translate(width / 2, height / 2);
   rotateX(PI / 3);
   translate(bossX, bossY, bossZ);
 
-  rotateY(bossRotation);
-  rotateX(bossRotation * 0.5);
+  rotateX(PI / 2);
+  rotateY(PI / 2);
 
-  if (bossTexture != null) {
-    fill(255);
-    stroke(255, 0, 0);
-    strokeWeight(2);
-    drawTexturedBossCube(bossSize);
-  } else {
-    fill(bossColor);
-    stroke(255, 0, 0);
-    strokeWeight(2);
-    box(bossSize);
+  if (bossType == 1) {
+    rotateY(-PI / 2);
   }
+
+  scale(80);
+  shape(bossModels[bossType][bossFrame]);
 
   popMatrix();
 
@@ -72,57 +111,6 @@ void drawBoss() {
   }
 }
 
-void drawTexturedBossCube(float s) {
-  float hs = s / 2;
-
-  beginShape(QUADS);
-  texture(bossTexture);
-  vertex(-hs, -hs, hs, 0, 0);
-  vertex(hs, -hs, hs, 1, 0);
-  vertex(hs, hs, hs, 1, 1);
-  vertex(-hs, hs, hs, 0, 1);
-  endShape();
-
-  beginShape(QUADS);
-  texture(bossTexture);
-  vertex(hs, -hs, -hs, 0, 0);
-  vertex(-hs, -hs, -hs, 1, 0);
-  vertex(-hs, hs, -hs, 1, 1);
-  vertex(hs, hs, -hs, 0, 1);
-  endShape();
-
-  beginShape(QUADS);
-  texture(bossTexture);
-  vertex(-hs, -hs, -hs, 0, 0);
-  vertex(-hs, -hs, hs, 1, 0);
-  vertex(-hs, hs, hs, 1, 1);
-  vertex(-hs, hs, -hs, 0, 1);
-  endShape();
-
-  beginShape(QUADS);
-  texture(bossTexture);
-  vertex(hs, -hs, hs, 0, 0);
-  vertex(hs, -hs, -hs, 1, 0);
-  vertex(hs, hs, -hs, 1, 1);
-  vertex(hs, hs, hs, 0, 1);
-  endShape();
-
-  beginShape(QUADS);
-  texture(bossTexture);
-  vertex(-hs, -hs, -hs, 0, 0);
-  vertex(hs, -hs, -hs, 1, 0);
-  vertex(hs, -hs, hs, 1, 1);
-  vertex(-hs, -hs, hs, 0, 1);
-  endShape();
-
-  beginShape(QUADS);
-  texture(bossTexture);
-  vertex(-hs, hs, hs, 0, 0);
-  vertex(hs, hs, hs, 1, 0);
-  vertex(hs, hs, -hs, 1, 1);
-  vertex(-hs, hs, -hs, 0, 1);
-  endShape();
-}
 
 void drawBossHealthBar() {
   pushMatrix();
@@ -133,7 +121,7 @@ void drawBossHealthBar() {
   float barWidth = 300;
   float barHeight = 30;
   float barX = width / 2 - barWidth / 2;
-  float barY = 50;
+  float barY = 10;
 
   fill(50);
   stroke(255);

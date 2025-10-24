@@ -1,4 +1,3 @@
-// Variables globales del juego
 int level = 0;
 int estado = 0;
 int score = 0;
@@ -8,21 +7,18 @@ float HITBOX_H = 10.0;
 float HITBOX_OFFSET_X = -5.0;
 float HITBOX_OFFSET_Y = height/2;
 
-// Sistema de deltaTime para independencia de framerate
 float deltaTime = 0;
 int lastFrameTime = 0;
 float targetFPS = 60.0;
 
-// Sistema de fases del juego
 int PHASE_NORMAL = 0;
 int PHASE_BOSS = 1;
 int gamePhase = PHASE_NORMAL;
-float bossPhaseTime = 30.0; // 30 segundos hasta fase de jefe
+float bossPhaseTime = 30.0;
 float gameTime = 0;
 boolean bossDefeatedFlag = false;
 
-// Límite de tiempo para derrotar al jefe
-float bossFightTimeLimit = 30.0; // 30 segundos
+float bossFightTimeLimit = 30.0;
 float bossFightTime = 0;
 
 
@@ -41,17 +37,16 @@ void setup() {
   hitboxPersonaje = new HitboxPlayer(personajeX, height /2, HITBOX_W, HITBOX_H, HITBOX_OFFSET_X, HITBOX_OFFSET_Y);
   textureMode(NORMAL);
   noSmooth();
-  level = 1;
+  level = 2;
   lastFrameTime = millis();
 }
 
 void draw() {
-  // Calcular deltaTime
   int currentTime = millis();
   deltaTime = (currentTime - lastFrameTime) / 1000.0;
   lastFrameTime = currentTime;
 
-  if (deltaTime > 0.1) deltaTime = 0.1; // Limitar saltos grandes
+  if (deltaTime > 0.1) deltaTime = 0.1;
 
   if (estado == 0) {
     mostrarMenu();
@@ -68,7 +63,6 @@ void draw() {
         break;
     }
 
-    // Actualizar temporizadores de fase
     if (gamePhase == PHASE_NORMAL) {
       gameTime += deltaTime;
       if (gameTime >= bossPhaseTime) {
@@ -83,7 +77,6 @@ void draw() {
 
     moverPersonaje();
 
-    // Actualizar sistemas según fase
     if (gamePhase == PHASE_NORMAL) {
       updateSpawner();
       updateDiamonds();
@@ -111,7 +104,6 @@ void draw() {
 
     hitboxPersonaje.actualizar(personajeX, 600);
 
-    // Colisiones solo en fase normal
     if (gamePhase == PHASE_NORMAL) {
       checkDiamondCollision();
       if (checkObstacleCollision()) {
@@ -119,21 +111,16 @@ void draw() {
       }
     }
 
-    // UI
     fill(255);
     textSize(24);
     text("Puntuacion: " + score, 10, 30);
 
     if (gamePhase == PHASE_BOSS) {
-      fill(255, 0, 0);
-      textSize(32);
-      textAlign(CENTER, TOP);
-      text("BOSS FIGHT!", width/2, 10);
-
       int timeRemaining = (int)(bossFightTimeLimit - bossFightTime);
       fill(255, 255, 0);
       textSize(28);
-      text("Time: " + timeRemaining + "s", width/2, 100);
+      textAlign(RIGHT, TOP);
+      text("Time: " + timeRemaining + "s", width - 10, 30);
       textAlign(LEFT, BASELINE);
     } else {
       fill(255);
@@ -148,23 +135,21 @@ void draw() {
     Configuracion();
   } else if (estado == 99) {
   background(0);
-  // Título GAME OVER
   fill(255, 50, 50);
   textSize(72);
   textAlign(CENTER, CENTER);
   text("GAME OVER", width/2, height/2 - 100);
-  // Puntuación final
   fill(255);
   textSize(32);
   text("Puntuacion Final: " + score, width/2, height/2 - 20);
-  // Botón TRY AGAIN
+
   float btnTryW = 200;
   float btnTryH = 60;
   float btnTryX = width/2 - btnTryW/2;
   float btnTryY = height/2 + 50;
   if (mouseX > btnTryX && mouseX < btnTryX + btnTryW &&
       mouseY > btnTryY && mouseY < btnTryY + btnTryH) {
-    fill(100, 200, 100); // hover
+    fill(100, 200, 100);
   } else {
     fill(50, 150, 50);
   }
@@ -172,14 +157,14 @@ void draw() {
   fill(255);
   textSize(28);
   text("TRY AGAIN", width/2, btnTryY + btnTryH/2 + 5);
-  // Botón MENÚ PRINCIPAL
+
   float btnMenuW = 280;
   float btnMenuH = 60;
   float btnMenuX = width/2 - btnMenuW/2;
   float btnMenuY = height/2 + 130;
   if (mouseX > btnMenuX && mouseX < btnMenuX + btnMenuW &&
       mouseY > btnMenuY && mouseY < btnMenuY + btnMenuH) {
-    fill(100, 100, 200); // hover
+    fill(100, 100, 200);
   } else {
     fill(50, 50, 150);
   }
@@ -187,7 +172,7 @@ void draw() {
   fill(255);
   textSize(24);
   text("MENU PRINCIPAL", width/2, btnMenuY + btnMenuH/2 + 5);
-  textAlign(LEFT, BASELINE); // restaurar alineación
+  textAlign(LEFT, BASELINE);
   } else if (estado == 100) {
     fill(0, 255, 0);
     textSize(64);
@@ -214,8 +199,6 @@ void mousePressed() {
     if (mouseX > width-60 && mouseX < width && mouseY < 60) {
       estado = 3;
     }
-  } else if (estado == 1 && gamePhase == PHASE_BOSS) {
-    shootProjectile();
   } else if (estado == 2) {
     if (mouseX < 70 && mouseY < 70) {
       estado = 0;
@@ -225,24 +208,22 @@ void mousePressed() {
       estado = 0;
     }
   } else if (estado == 99) {
-    // Botón TRY AGAIN
     float btnTryW = 200;
     float btnTryH = 60;
     float btnTryX = width/2 - btnTryW/2;
     float btnTryY = height/2 + 50;
-    
+
     if (mouseX > btnTryX && mouseX < btnTryX + btnTryW &&
         mouseY > btnTryY && mouseY < btnTryY + btnTryH) {
       estado = 1;
       resetGame();
     }
-    
-    // Botón MENÚ PRINCIPAL
+
     float btnMenuW = 220;
     float btnMenuH = 60;
     float btnMenuX = width/2 - btnMenuW/2;
     float btnMenuY = height/2 + 130;
-    
+
     if (mouseX > btnMenuX && mouseX < btnMenuX + btnMenuW &&
         mouseY > btnMenuY && mouseY < btnMenuY + btnMenuH) {
       estado = 0;

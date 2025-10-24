@@ -2,10 +2,10 @@ PShape[] steve = new PShape[4];
 PImage stevetxt;
 int currentFrame = 0;
 float animationTimer = 0;
-float animationSpeed = 0.117; // ~7 frames a 60fps
+float animationSpeed = 0.117;
 
 float personajeX = 640;
-float velocidad = 300.0; // Pixels por segundo
+float velocidad = 300.0;
 float limiteIzq = 540;
 float limiteDer = 740;
 
@@ -49,8 +49,7 @@ void moverPersonaje() {
     personajeX -= velocidad * deltaTime;
   }
 
-  // Movimiento con ratón solo en fase normal
-  if (mousePressed && gamePhase == PHASE_NORMAL) {
+  if (mousePressed) {
     float distancia = mouseX - personajeX;
     personajeX += distancia * 0.1;
   }

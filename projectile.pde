@@ -2,15 +2,22 @@ ArrayList<Float> projectileX = new ArrayList<Float>();
 ArrayList<Float> projectileY = new ArrayList<Float>();
 ArrayList<Float> projectileZ = new ArrayList<Float>();
 
-float projectileSpeed = 900.0; // Pixels por segundo
-float projectileSize = 10;
+float projectileSpeed = 900.0;
+float projectileSize = 20;
 float shootCooldown = 0;
-float cooldownTime = 0.25; // Segundos entre disparos
+float cooldownTime = 0.25;
+
+PShape arrowModel;
+PImage arrowTexture;
 
 void setupProjectiles() {
   projectileX = new ArrayList<Float>();
   projectileY = new ArrayList<Float>();
   projectileZ = new ArrayList<Float>();
+
+  arrowTexture = loadImage("Arrow.png");
+  arrowModel = loadShape("Arrow.obj");
+  arrowModel.setTexture(arrowTexture);
 }
 
 void updateProjectiles() {
@@ -47,10 +54,10 @@ void drawProjectiles() {
     rotateX(PI / 3);
     translate(projectileX.get(i), projectileY.get(i), projectileZ.get(i));
 
-    fill(255, 255, 0);
-    stroke(255, 200, 0);
-    strokeWeight(2);
-    sphere(projectileSize);
+    rotateX(PI / 2);
+    rotateY(PI / 2);
+    scale(8);
+    shape(arrowModel);
 
     popMatrix();
   }
