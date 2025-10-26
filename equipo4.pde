@@ -1,12 +1,14 @@
 int level = 0;
 int estado = 0;
 int score = 0;
+int vidas;
 HitboxPlayer hitboxPersonaje;
 float HITBOX_W = 10.0;
 float HITBOX_H = 10.0;
 float HITBOX_OFFSET_X = -5.0;
 float HITBOX_OFFSET_Y = height/2;
 
+PImage CoinIcon;
 float deltaTime = 0;
 int lastFrameTime = 0;
 float targetFPS = 60.0;
@@ -24,6 +26,7 @@ float bossFightTime = 0;
 
 void setup() {
   size(1280, 720, P3D);
+  CoinIcon = loadImage("DiamondIcon.png");
   setupmenu();
   setupTerrain();
   setupPlatform();
@@ -37,11 +40,14 @@ void setup() {
   hitboxPersonaje = new HitboxPlayer(personajeX, height /2, HITBOX_W, HITBOX_H, HITBOX_OFFSET_X, HITBOX_OFFSET_Y);
   textureMode(NORMAL);
   noSmooth();
-  level = 2;
+  level = 1;
+  vidas = 2;
+  
   lastFrameTime = millis();
 }
 
 void draw() {
+  
   int currentTime = millis();
   deltaTime = (currentTime - lastFrameTime) / 1000.0;
   lastFrameTime = currentTime;
@@ -56,14 +62,22 @@ void draw() {
       case 2:
         drawWater();
         drawPlatform(level);
+         hint(DISABLE_DEPTH_TEST);
+        image(CoinIcon, 30, 30, 60, 60);
+        hint(ENABLE_DEPTH_TEST);
         break;
       default:
         drawTerrain(level);
         drawPlatform(level);
+         hint(DISABLE_DEPTH_TEST);
+        image(CoinIcon, 30, 30, 60, 60);
+        hint(ENABLE_DEPTH_TEST);
+
         break;
     }
 
     if (gamePhase == PHASE_NORMAL) {
+      
       gameTime += deltaTime;
       if (gameTime >= bossPhaseTime) {
         transitionToBossPhase();
@@ -71,7 +85,7 @@ void draw() {
     } else if (gamePhase == PHASE_BOSS) {
       bossFightTime += deltaTime;
       if (bossFightTime >= bossFightTimeLimit) {
-        estado = 99;
+        estado = 4;
       }
     }
 
@@ -107,14 +121,17 @@ void draw() {
     if (gamePhase == PHASE_NORMAL) {
       checkDiamondCollision();
       if (checkObstacleCollision()) {
-        estado = 99;
+        vidas = vidas -1;
+        if (vidas <= 0){
+        estado = 4;
+      }
       }
     }
-
+    
     fill(255);
     textSize(24);
-    text("Puntuacion: " + score, 10, 30);
-
+    text(": " + score, 60, 40);
+   
     if (gamePhase == PHASE_BOSS) {
       int timeRemaining = (int)(bossFightTimeLimit - bossFightTime);
       fill(255, 255, 0);
@@ -126,14 +143,14 @@ void draw() {
       fill(255);
       textSize(16);
       int timeLeft = (int)(bossPhaseTime - gameTime);
-      text("Boss in: " + timeLeft + "s", 10, 60);
+      text("Boss in: " + timeLeft + "s", 10, 80);
     }
 
   } else if (estado == 2) {
     Tutorial();
   } else if (estado == 3) {
     Configuracion();
-  } else if (estado == 99) {
+  } else if (estado == 4) {
   background(0);
   fill(255, 50, 50);
   textSize(72);
@@ -173,7 +190,7 @@ void draw() {
   textSize(24);
   text("MENU PRINCIPAL", width/2, btnMenuY + btnMenuH/2 + 5);
   textAlign(LEFT, BASELINE);
-  } else if (estado == 100) {
+  } else if (estado == 5) {
     fill(0, 255, 0);
     textSize(64);
     textAlign(CENTER, CENTER);
@@ -207,7 +224,7 @@ void mousePressed() {
     if (mouseX < 70 && mouseY < 70) {
       estado = 0;
     }
-  } else if (estado == 99) {
+  } else if (estado == 4) {
     float btnTryW = 200;
     float btnTryH = 60;
     float btnTryX = width/2 - btnTryW/2;
@@ -229,7 +246,10 @@ void mousePressed() {
       estado = 0;
       resetGame();
     }
-  }
+  } else if(estado == 5){
+      if (mouseX >= 0  && mouseY >= 0){
+      estado = 0;}
+    }
 }
 
 void mouseDragged() {
@@ -267,6 +287,7 @@ boolean checkObstacleCollision() {
     float obsX = obstacleX_Proyectado - obstacleHitboxW / 2;
     float obsY = obstacleY_Proyectado - obstacleHitboxH / 2;
     if (hitboxPersonaje.colisionaCon(obsX, obsY, obstacleHitboxW, obstacleHitboxH)) {
+      
       return true;
     }
   }
@@ -292,8 +313,13 @@ void clearExistingObjects() {
 }
 
 void onBossDefeated() {
-  estado = 100;
+  estado = 5;
   score += 100;
+  if (level < 3) {
+    level +=1;
+  } else {
+    level = 1;
+  }
 }
 
 void resetGame() {

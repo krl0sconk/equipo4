@@ -164,4 +164,5 @@ boolean isBossInCombat() {
 
 boolean isBossDefeated() {
   return bossInCombat == false && bossHealth <= 0;
+  
 }
