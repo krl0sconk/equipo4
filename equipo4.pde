@@ -7,6 +7,8 @@ float HITBOX_W = 10.0;
 float HITBOX_H = 10.0;
 float HITBOX_OFFSET_X = -5.0;
 float HITBOX_OFFSET_Y = height/2;
+float invulnerableTime = 0;
+float invulnerableDuration = 1.0; 
 
 PImage CoinIcon;
 float deltaTime = 0;
@@ -41,7 +43,7 @@ void setup() {
   textureMode(NORMAL);
   noSmooth();
   level = 1;
-  vidas = 2;
+  vidas = 3;
   
   lastFrameTime = millis();
 }
@@ -118,19 +120,28 @@ void draw() {
 
     hitboxPersonaje.actualizar(personajeX, 600);
 
-    if (gamePhase == PHASE_NORMAL) {
-      checkDiamondCollision();
-      if (checkObstacleCollision()) {
-        vidas = vidas -1;
-        if (vidas <= 0){
-        estado = 4;
-      }
-      }
+  if (gamePhase == PHASE_NORMAL) {
+  checkDiamondCollision();
+  
+  invulnerableTime -= deltaTime;
+  if (invulnerableTime < 0) invulnerableTime = 0;
+  
+  if (invulnerableTime == 0 && checkObstacleCollision()) {
+    vidas -= 1;
+    invulnerableTime = invulnerableDuration;
+    if (vidas <= 0) {
+      estado = 4; // GAME OVER
     }
+  }
+}
     
     fill(255);
     textSize(24);
     text(": " + score, 60, 40);
+    fill(255);
+    textSize(16);
+    text("Vidas: " + vidas, 10, 100);
+
    
     if (gamePhase == PHASE_BOSS) {
       int timeRemaining = (int)(bossFightTimeLimit - bossFightTime);
@@ -327,6 +338,7 @@ void resetGame() {
   gameTime = 0;
   bossFightTime = 0;
   score = 0;
+  vidas = 3;
   bossDefeatedFlag = false;
   resetBoss();
   resumeSpawner();
