@@ -50,10 +50,19 @@ void Tutorial() {
   textSize(30);
 
   fill(0);
-  text("Es hora de que ", width/2 + 8, height/2-80);
-  text("aprendas a jugar ", width/2 + 8, height/2-32);
-  text("este espectacular ", width/2 + 8, height/2 + 16);
-  text("juego. ", width/2 + 8, height/2+54);
+  text("Es hora de que ", width/2 + 8, height/2-100);
+  text("aprendas a jugar ", width/2 + 8, height/2-52);
+  text("este espectacular ", width/2 + 8, height/2 - 4);
+  text("juego. ", width/2 + 8, height/2+34);
+  fill(0,0,200);
+  textSize(24);
+  
+  
+  text("click aqui para ", width/2 + 8, height/2 + 64);
+
+  text("empezar el tutorial", width/2+8, height/2 + 94);
+ 
+  
 }
 
 void Configuracion() {

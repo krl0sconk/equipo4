@@ -10,7 +10,7 @@ float HITBOX_OFFSET_Y = height/2;
 float invulnerableTime = 0;
 float invulnerableDuration = 1.0; 
 
-PImage CoinIcon;
+PImage CoinIcon, HeartIcon;
 float deltaTime = 0;
 int lastFrameTime = 0;
 float targetFPS = 60.0;
@@ -29,6 +29,7 @@ float bossFightTime = 0;
 void setup() {
   size(1280, 720, P3D);
   CoinIcon = loadImage("DiamondIcon.png");
+  HeartIcon = loadImage("HeartIcon.png");
   setupmenu();
   setupTerrain();
   setupPlatform();
@@ -66,6 +67,7 @@ void draw() {
         drawPlatform(level);
          hint(DISABLE_DEPTH_TEST);
         image(CoinIcon, 30, 30, 60, 60);
+        image(HeartIcon, 20,100, 25, 25);
         hint(ENABLE_DEPTH_TEST);
         break;
       default:
@@ -73,6 +75,7 @@ void draw() {
         drawPlatform(level);
          hint(DISABLE_DEPTH_TEST);
         image(CoinIcon, 30, 30, 60, 60);
+        image(HeartIcon, 20,100, 25, 25);
         hint(ENABLE_DEPTH_TEST);
 
         break;
@@ -140,7 +143,7 @@ void draw() {
     text(": " + score, 60, 40);
     fill(255);
     textSize(16);
-    text("Vidas: " + vidas, 10, 100);
+    text(" : " + vidas, 35, 110);
 
    
     if (gamePhase == PHASE_BOSS) {
@@ -235,6 +238,8 @@ void mousePressed() {
     if (mouseX < 70 && mouseY < 70) {
       estado = 0;
     }
+   
+    
   } else if (estado == 4) {
     float btnTryW = 200;
     float btnTryH = 60;
