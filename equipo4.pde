@@ -213,6 +213,23 @@ void draw() {
     textSize(32);
     text("Final Score: " + score, width/2, height/2 + 80);
     textAlign(LEFT, BASELINE);
+  } else if (estado == 6){
+      drawTerrain(1);
+      drawPlatform(1);
+      image(ret, 35, 35);
+      rectMode(CENTER);
+      moverPersonaje();
+      drawPlayer(1);
+      image(tabla, width/2-400, height/2-250);
+      textAlign(CENTER, CENTER);
+      textSize(24);
+
+      fill(0);
+      text("Puedes moverte con: ", width/2 - 392, height/2-300);
+      text("1. A y D ", width/2 - 392, height/2-252);
+      text("2. Las ´<-´ y ´->´ ", width/2 - 392, height/2 - 214);
+      text("3. El mouse ", width/2 - 392, height/2-176);
+  
   }
 }
 
@@ -223,7 +240,7 @@ void mousePressed() {
       estado = 1;
       resetGame();
     }
-    if (mouseX > width/2 - 10 && mouseX < width/2 + 10 &&
+    if (mouseX > width/2 - 20 && mouseX < width/2 + 20 &&
         mouseY > 532 && mouseY < 550) {
       estado = 2;
     }
@@ -234,10 +251,16 @@ void mousePressed() {
     if (mouseX < 70 && mouseY < 70) {
       estado = 0;
     }
+    
+      if (mouseX > width/2 - 24 && mouseX < width/2 +32 && mouseY > height/2 + 48  && mouseY < height/2 + 100 ) {
+      estado = 6;
+    }
   } else if (estado == 3) {
     if (mouseX < 70 && mouseY < 70) {
       estado = 0;
-    }
+    } 
+ 
+    
    
     
   } else if (estado == 4) {
@@ -265,6 +288,11 @@ void mousePressed() {
   } else if(estado == 5){
       if (mouseX >= 0  && mouseY >= 0){
       estado = 0;}
+    } else if (estado == 6){
+        if (mouseX < 70 && mouseY < 70) {
+      estado = 0;
+    } 
+ 
     }
 }
 
