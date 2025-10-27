@@ -44,7 +44,7 @@ void setup() {
   textureMode(NORMAL);
   noSmooth();
   level = 1;
-  vidas = vidasConfig;
+  vidas = vidasIniciales;
   
   lastFrameTime = millis();
 }
@@ -372,7 +372,7 @@ void resetGame() {
   gameTime = 0;
   bossFightTime = 0;
   score = 0;
-  vidas = vidasConfig;
+  vidas = vidasIniciales;
   bossDefeatedFlag = false;
   resetBoss();
   resumeSpawner();

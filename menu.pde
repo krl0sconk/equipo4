@@ -1,10 +1,7 @@
 PImage fondo[] = new PImage[4];
 PFont font;
 PImage title, setw, ret, chr, tabla;
-float BallX = width / 2;
-float BallX_vidas = width / 2;
 String nivelVolumen = "MEDIO";
-int vidasConfig = 3;
 String[] nivelesVolumen = {"BAJO", "MEDIO", "ALTO"};
 int indiceVolumen = 1;  // MEDIO
 String volumen = nivelesVolumen[indiceVolumen];
@@ -20,7 +17,6 @@ int  btnGuardarY = 410, btnGuardarW = 280, btnGuardarH = 50;
 
 
 void setupmenu() {
-  BallX = width/2 - 160;
   title = loadImage("title.png");
   title.resize(500, 500);
   setw = loadImage("setwh.png");
@@ -88,6 +84,7 @@ void Configuracion() {
   fill(255);
  
   // --- Botones ---
+  image(ret, 35, 35);
   noStroke();
   fill(100);
   rect(width/2 - btnVolumenW/2, btnVolumenY, btnVolumenW, btnVolumenH, 10);
