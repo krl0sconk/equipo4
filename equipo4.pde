@@ -261,14 +261,27 @@ void mousePressed() {
     } 
       //Funciones boton volumen
     if ( mouseX > width/2 - btnVolumenW/2 && mouseX < width/2 + btnVolumenW/2 && mouseY > btnVolumenY - btnVolumenH/2 && mouseY < btnVolumenY + btnVolumenH/2){
-        estado = 0;
+        if (indiceVolumen < 2) {
+              indiceVolumen += 1;
+        } else {
+            indiceVolumen = 0;
+        }
     }
+    
     //funciones boton Vida
-     if ( mouseX > width/2 - btnVolumenW/2 && mouseX < width/2 + btnVolumenW/2 && mouseY > btnVolumenY - btnVolumenH/2 && mouseY < btnVolumenY + btnVolumenH/2){
-        estado = 0;
+     if ( mouseX > width/2 - btnVolumenW/2 && mouseX < width/2 + btnVolumenW/2 && mouseY > btnVidasY - btnVidasH/2 && mouseY < btnVidasY + btnVidasH/2){
+        if (indiceVidas < 2) {
+          indiceVidas += 1;
+        } else {
+          indiceVidas = 0;
+        }
     }
     //funcion boton guardar y volver
-    
+    if (mouseX > width/2 - btnVolumenW/2 && mouseX < width/2 + btnVolumenW/2 &&  mouseY >btnGuardarY - btnGuardarH/2 && mouseY < btnGuardarY + btnGuardarH/2){
+        
+      estado = 0;
+        
+    }
    
     
   } else if (estado == 4) {

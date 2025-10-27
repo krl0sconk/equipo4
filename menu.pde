@@ -3,12 +3,12 @@ PFont font;
 PImage title, setw, ret, chr, tabla;
 String nivelVolumen = "MEDIO";
 String[] nivelesVolumen = {"BAJO", "MEDIO", "ALTO"};
-int indiceVolumen = 1;  // MEDIO
-String volumen = nivelesVolumen[indiceVolumen];
+int indiceVolumen ;  // MEDIO
+String volumen;
 
 // Opciones de vidas
 int[] opcionesVidas = {1, 3, 5};
-int indiceVidas = 1; // 3 vidas
+int indiceVidas; // 3 vidas
 int vidasIniciales = opcionesVidas[indiceVidas];
 
 int  btnVolumenY = 250, btnVolumenW = 280, btnVolumenH = 50;
@@ -28,6 +28,8 @@ void setupmenu() {
   tabla = loadImage("esc_md.jpg");
   tabla.resize(350, 250);
   font = createFont("minecraft_font.ttf", 16);
+  indiceVolumen = 1;
+  indiceVidas = 1;
   textFont(font, 16);
   for (int i = 1; i <= 3; i++) {
     fondo[i] = loadImage("image"+i+".png");
@@ -82,7 +84,8 @@ void Configuracion() {
   background(fondo[level]);
   textAlign(CENTER);
   fill(255);
- 
+  volumen =  nivelesVolumen[indiceVolumen];
+  vidasIniciales = opcionesVidas[indiceVidas];
   // --- Botones ---
   image(ret, 35, 35);
   noStroke();
