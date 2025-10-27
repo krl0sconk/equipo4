@@ -44,7 +44,7 @@ void setup() {
   textureMode(NORMAL);
   noSmooth();
   level = 1;
-  vidas = 3;
+  vidas = vidasConfig;
   
   lastFrameTime = millis();
 }
@@ -259,7 +259,15 @@ void mousePressed() {
     if (mouseX < 70 && mouseY < 70) {
       estado = 0;
     } 
- 
+      //Funciones boton volumen
+    if ( mouseX > width/2 - btnVolumenW/2 && mouseX < width/2 + btnVolumenW/2 && mouseY > btnVolumenY - btnVolumenH/2 && mouseY < btnVolumenY + btnVolumenH/2){
+        estado = 0;
+    }
+    //funciones boton Vida
+     if ( mouseX > width/2 - btnVolumenW/2 && mouseX < width/2 + btnVolumenW/2 && mouseY > btnVolumenY - btnVolumenH/2 && mouseY < btnVolumenY + btnVolumenH/2){
+        estado = 0;
+    }
+    //funcion boton guardar y volver
     
    
     
@@ -296,14 +304,7 @@ void mousePressed() {
     }
 }
 
-void mouseDragged() {
-  if (estado == 3) {
-    if (mouseX > width/2 - 160 && mouseX < width/2 + 160 &&
-        mouseY > height/2 - 95 && mouseY < height/2 - 55) {
-      BallX = mouseX;
-    }
-  }
-}
+
 
 void checkDiamondCollision() {
   float diamondHitboxW = 50.0;
@@ -371,7 +372,7 @@ void resetGame() {
   gameTime = 0;
   bossFightTime = 0;
   score = 0;
-  vidas = 3;
+  vidas = vidasConfig;
   bossDefeatedFlag = false;
   resetBoss();
   resumeSpawner();

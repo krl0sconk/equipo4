@@ -1,7 +1,23 @@
 PImage fondo[] = new PImage[4];
 PFont font;
 PImage title, setw, ret, chr, tabla;
-int BallX;
+float BallX = width / 2;
+float BallX_vidas = width / 2;
+String nivelVolumen = "MEDIO";
+int vidasConfig = 3;
+String[] nivelesVolumen = {"BAJO", "MEDIO", "ALTO"};
+int indiceVolumen = 1;  // MEDIO
+String volumen = nivelesVolumen[indiceVolumen];
+
+// Opciones de vidas
+int[] opcionesVidas = {1, 3, 5};
+int indiceVidas = 1; // 3 vidas
+int vidasIniciales = opcionesVidas[indiceVidas];
+
+int  btnVolumenY = 250, btnVolumenW = 280, btnVolumenH = 50;
+int  btnVidasY = 330, btnVidasW = 280, btnVidasH = 50;
+int  btnGuardarY = 410, btnGuardarW = 280, btnGuardarH = 50;
+
 
 void setupmenu() {
   BallX = width/2 - 160;
@@ -65,13 +81,32 @@ void Tutorial() {
   
 }
 
+
 void Configuracion() {
-  background(0);
-  image(fondo[level], width/2, height/2);
-  image(ret, 35, 35);
-  rectMode(CENTER);
+  background(fondo[level]);
+  textAlign(CENTER);
+  fill(255);
+ 
+  // --- Botones ---
+  noStroke();
   fill(100);
-  rect(width/2, height/2 - 75, 320, 40);
-  fill(150);
-  rect(BallX, height/2-75, 20, 40);
+  rect(width/2 - btnVolumenW/2, btnVolumenY, btnVolumenW, btnVolumenH, 10);
+  rect(width/2 - btnVidasW/2, btnVidasY, btnVidasW, btnVidasH, 10);
+  
+  // Botón de guardar (verde)
+  fill(0, 255, 100);
+  rect(width/2 - btnGuardarW/2, btnGuardarY, btnGuardarW, btnGuardarH, 10);
+  fill(255);
+  text("GUARDAR Y VOLVER", width/2, btnGuardarY + 32);
+  
+  textSize(16);
+  fill(200);
+  text("Haz clic en los botones para cambiar las opciones", width/2, height - 50);
+   textSize(40);
+  text("Configuracion", width/2, 150);
+  
+  textSize(24);
+  text("Volumen: " + volumen, width/2 , btnVolumenY + 30);
+  text("Vidas iniciales: " + vidasIniciales, width/2 , btnVidasY + 30);
+  
 }
