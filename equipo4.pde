@@ -260,7 +260,7 @@ void mousePressed() {
       estado = 0;
     } 
       //Funciones boton volumen
-    if ( mouseX > width/2 - btnVolumenW/2 && mouseX < width/2 + btnVolumenW/2 && mouseY > btnVolumenY - btnVolumenH/2 && mouseY < btnVolumenY + btnVolumenH/2){
+    if ( mouseX > width/2 - btnVolumenW/2 && mouseX < width/2 + btnVolumenW/2 && mouseY > btnVolumenY - btnVolumenH/2 && mouseY < btnVolumenY + btnVolumenH){
         if (indiceVolumen < 2) {
               indiceVolumen += 1;
         } else {
@@ -269,7 +269,7 @@ void mousePressed() {
     }
     
     //funciones boton Vida
-     if ( mouseX > width/2 - btnVolumenW/2 && mouseX < width/2 + btnVolumenW/2 && mouseY > btnVidasY - btnVidasH/2 && mouseY < btnVidasY + btnVidasH/2){
+     if ( mouseX > width/2 - btnVolumenW/2 && mouseX < width/2 + btnVolumenW/2 && mouseY > btnVidasY - btnVidasH/2 && mouseY < btnVidasY + btnVidasH){
         if (indiceVidas < 2) {
           indiceVidas += 1;
         } else {
@@ -277,7 +277,7 @@ void mousePressed() {
         }
     }
     //funcion boton guardar y volver
-    if (mouseX > width/2 - btnVolumenW/2 && mouseX < width/2 + btnVolumenW/2 &&  mouseY >btnGuardarY - btnGuardarH/2 && mouseY < btnGuardarY + btnGuardarH/2){
+    if (mouseX > width/2 - btnVolumenW/2 && mouseX < width/2 + btnVolumenW/2 &&  mouseY >btnGuardarY - btnGuardarH/2 && mouseY < btnGuardarY + btnGuardarH){
         
       estado = 0;
         
