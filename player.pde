@@ -24,9 +24,9 @@ void setupPlayer() {
 }
 
 void keyPressed() {
-  if (keyCode == RIGHT || key == 'd') {
+  if (keyCode == RIGHT || key == 'D' || key == 'd') {
     moverDerecha = true;
-  } else if (keyCode == LEFT || key == 'a') {
+  } else if (keyCode == LEFT || key == 'A' || key == 'a') {
     moverIzquierda = true;
   } else if (key == ' ' && gamePhase == PHASE_BOSS) {
     shootProjectile();
@@ -34,9 +34,9 @@ void keyPressed() {
 }
 
 void keyReleased() {
-  if (keyCode == RIGHT || key == 'd') {
+  if (keyCode == RIGHT || key == 'D' || key == 'd') {
     moverDerecha = false;
-  } else if (keyCode == LEFT || key == 'a') {
+  } else if (keyCode == LEFT || key == 'A' || key == 'a') {
     moverIzquierda = false;
   }
 }
