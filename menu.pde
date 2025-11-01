@@ -40,16 +40,24 @@ void setupmenu() {
 void mostrarMenu() {
   background(fondo[level]);
   imageMode(CENTER);
-  image(title, width/2, height/2 - 50);
-  image(setw, width-30, 30);
 
-  textSize(48);
+  // Responsive title positioning
+  image(title, width/2, height * 0.35);
+
+  // Settings button in top-right corner
+  float settingsSize = min(width, height) * 0.08;
+  image(setw, width - settingsSize * 0.5 - 10, settingsSize * 0.5 + 10);
+
+  // Play button
+  textSize(min(width, height) * 0.06);
   textAlign(CENTER, CENTER);
   fill(255, 255, 255);
-  text("Jugar", width/2, 500);
-  textSize(22);
+  text("Jugar", width/2, height * 0.70);
+
+  // Tutorial button
+  textSize(min(width, height) * 0.035);
   fill(255, 0, 0);
-  text("Tutorial", width/2, 546);
+  text("Tutorial", width/2, height * 0.78);
 }
 
 void Tutorial() {

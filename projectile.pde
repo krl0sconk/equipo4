@@ -96,33 +96,56 @@ void clearAllProjectiles() {
 }
 
 void drawShootCooldown() {
-  if (shootCooldown <= 0) return;
-
   pushStyle();
   hint(DISABLE_DEPTH_TEST);
 
-  float barWidth = 100;
-  float barHeight = 10;
-  float barX = width / 2 - barWidth / 2;
-  float barY = height - 50;
+  // Draw shoot button for touch controls
+  float buttonSize = min(width, height) * 0.15; // 15% of smaller dimension
+  float buttonX = width - buttonSize - 30;
+  float buttonY = height - buttonSize - 30;
 
-  fill(50);
-  noStroke();
-  rect(barX, barY, barWidth, barHeight);
+  // Button background
+  if (shootCooldown > 0) {
+    fill(100, 100, 100, 150); // Gray when cooling down
+  } else {
+    fill(255, 100, 100, 200); // Red when ready
+  }
+  stroke(255);
+  strokeWeight(3);
+  ellipse(buttonX, buttonY, buttonSize, buttonSize);
 
-  float cooldownPercent = 1.0 - (shootCooldown / cooldownTime);
-  fill(0, 255, 0);
-  rect(barX, barY, barWidth * cooldownPercent, barHeight);
-
+  // Button label
   fill(255);
   textAlign(CENTER, CENTER);
-  textSize(12);
+  textSize(buttonSize * 0.3);
+  text("FIRE", buttonX, buttonY);
+
+  // Cooldown bar (if cooling down)
   if (shootCooldown > 0) {
-    text("RELOADING", width / 2, barY - 15);
-  } else {
-    text("READY TO FIRE", width / 2, barY - 15);
+    float barWidth = 100;
+    float barHeight = 10;
+    float barX = width / 2 - barWidth / 2;
+    float barY = height - 50;
+
+    fill(50);
+    noStroke();
+    rect(barX, barY, barWidth, barHeight);
+
+    float cooldownPercent = 1.0 - (shootCooldown / cooldownTime);
+    fill(0, 255, 0);
+    rect(barX, barY, barWidth * cooldownPercent, barHeight);
   }
 
   hint(ENABLE_DEPTH_TEST);
   popStyle();
+}
+
+// Check if touch is on shoot button
+boolean isTouchOnShootButton(float touchX, float touchY) {
+  float buttonSize = min(width, height) * 0.15;
+  float buttonX = width - buttonSize - 30;
+  float buttonY = height - buttonSize - 30;
+
+  float distance = dist(touchX, touchY, buttonX, buttonY);
+  return distance < buttonSize / 2;
 }

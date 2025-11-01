@@ -27,7 +27,10 @@ float bossFightTime = 0;
 
 
 void setup() {
-  size(1280, 720, P3D);
+  // Use fullScreen for Android/Desktop compatibility
+  size(displayWidth, displayHeight, P3D);
+  orientation(LANDSCAPE);
+
   CoinIcon = loadImage("DiamondIcon.png");
   HeartIcon = loadImage("HeartIcon.png");
   setupmenu();
@@ -234,17 +237,35 @@ void draw() {
 }
 
 void mousePressed() {
+  // Handle touch shooting during boss phase
+  if (estado == 1 && gamePhase == PHASE_BOSS) {
+    if (isTouchOnShootButton(mouseX, mouseY)) {
+      shootProjectile();
+      return; // Exit early to prevent other interactions
+    }
+  }
+
   if (estado == 0) {
-    if (mouseX > width/2 - 85 && mouseX < width/2 + 80 &&
-        mouseY > 480 && mouseY < 530) {
+    // Play button - proportional hit detection
+    float playButtonY = height * 0.70;
+    float playButtonHeight = min(width, height) * 0.08;
+    if (mouseY > playButtonY - playButtonHeight/2 && mouseY < playButtonY + playButtonHeight/2) {
       estado = 1;
       resetGame();
     }
-    if (mouseX > width/2 - 20 && mouseX < width/2 + 20 &&
-        mouseY > 532 && mouseY < 550) {
+
+    // Tutorial button
+    float tutorialButtonY = height * 0.78;
+    float tutorialButtonHeight = min(width, height) * 0.05;
+    if (mouseY > tutorialButtonY - tutorialButtonHeight/2 && mouseY < tutorialButtonY + tutorialButtonHeight/2) {
       estado = 2;
     }
-    if (mouseX > width-60 && mouseX < width && mouseY < 60) {
+
+    // Settings button in top-right corner
+    float settingsSize = min(width, height) * 0.08;
+    float settingsX = width - settingsSize * 0.5 - 10;
+    float settingsY = settingsSize * 0.5 + 10;
+    if (dist(mouseX, mouseY, settingsX, settingsY) < settingsSize) {
       estado = 3;
     }
   } else if (estado == 2) {

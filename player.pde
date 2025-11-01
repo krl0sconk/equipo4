@@ -4,15 +4,21 @@ int currentFrame = 0;
 float animationTimer = 0;
 float animationSpeed = 0.117;
 
-float personajeX = 640;
+// Dynamic positioning - will be set in setupPlayer based on actual screen size
+float personajeX;
 float velocidad = 300.0;
-float limiteIzq = 540;
-float limiteDer = 740;
+float limiteIzq;
+float limiteDer;
 
 boolean moverDerecha = false;
 boolean moverIzquierda = false;
 
 void setupPlayer() {
+  // Initialize player position based on screen width
+  personajeX = width / 2;
+  limiteIzq = width / 2 - 100;
+  limiteDer = width / 2 + 100;
+
   PGraphicsOpenGL pg = (PGraphicsOpenGL) g;
   pg.textureSampling(2);
   hint(DISABLE_TEXTURE_MIPMAPS);
