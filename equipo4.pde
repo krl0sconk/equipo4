@@ -2,6 +2,7 @@ int level = 0;
 int estado = 0;
 int score = 0;
 int vidas;
+int i;
 HitboxPlayer hitboxPersonaje;
 float HITBOX_W = 10.0;
 float HITBOX_H = 10.0;
@@ -137,6 +138,11 @@ void draw() {
     }
   }
 }
+    if (score%10 == 0 && score > 0){
+        vidas = vidas + 1;
+        score += 1;
+    
+    }
     
     fill(255);
     textSize(24);
@@ -144,7 +150,7 @@ void draw() {
     fill(255);
     textSize(16);
     text(" : " + vidas, 35, 110);
-
+    
    
     if (gamePhase == PHASE_BOSS) {
       int timeRemaining = (int)(bossFightTimeLimit - bossFightTime);
