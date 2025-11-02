@@ -1,11 +1,15 @@
 PImage watertxt;
+PImage waterBgTxt; // Separate variable for resized background
 
 void setupWater() {
   watertxt = loadImage("water.png");
+  // Create resized copy of sky background for water level
+  waterBgTxt = loadImage("sky.png");
+  waterBgTxt.resize(width, height); // Resize to match screen size
 }
 
 void drawWater() {
-  background(skytxt);
+  background(waterBgTxt);
   movement -= 0.6 * deltaTime;
   float yoffset = movement;
 

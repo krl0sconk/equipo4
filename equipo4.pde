@@ -6,14 +6,15 @@ HitboxPlayer hitboxPersonaje;
 float HITBOX_W = 10.0;
 float HITBOX_H = 10.0;
 float HITBOX_OFFSET_X = -5.0;
-float HITBOX_OFFSET_Y = height/2;
+float HITBOX_OFFSET_Y; // Will be set in setup() after screen size is known
 float invulnerableTime = 0;
-float invulnerableDuration = 1.0; 
+float invulnerableDuration = 1.0;
 
 PImage CoinIcon, HeartIcon;
 float deltaTime = 0;
 int lastFrameTime = 0;
 float targetFPS = 60.0;
+
 
 int PHASE_NORMAL = 0;
 int PHASE_BOSS = 1;
@@ -28,8 +29,10 @@ float bossFightTime = 0;
 
 void setup() {
   // Use fullScreen for Android/Desktop compatibility
-  size(displayWidth, displayHeight, P3D);
-  orientation(LANDSCAPE);
+  fullScreen(P3D);
+
+  // Initialize hitbox offset after screen size is determined
+  HITBOX_OFFSET_Y = height / 2;
 
   CoinIcon = loadImage("DiamondIcon.png");
   HeartIcon = loadImage("HeartIcon.png");
@@ -48,7 +51,12 @@ void setup() {
   noSmooth();
   level = 1;
   vidas = vidasIniciales;
-  
+
+  // Force lower pixel density for better performance on Android
+  // pixelDensity(1) uses 1:1 pixel mapping (no high-DPI scaling)
+  // Combined with noSmooth(), this significantly reduces rendering load
+  pixelDensity(1);
+
   lastFrameTime = millis();
 }
 
@@ -124,7 +132,7 @@ void draw() {
       drawShootCooldown();
     }
 
-    hitboxPersonaje.actualizar(personajeX, 600);
+    hitboxPersonaje.actualizar(personajeX, height / 2);
 
   if (gamePhase == PHASE_NORMAL) {
   checkDiamondCollision();
@@ -345,7 +353,8 @@ void checkDiamondCollision() {
   float diamondHitboxH = 50.0;
   for (int i = diamondX.size() - 1; i >= 0; i--) {
     float diamanteX_Proyectado = diamondX.get(i) + width / 2;
-    float diamanteY_Proyectado = diamondY.get(i) + height / 2;
+    // Apply isometric projection: account for rotateX(PI/3) transformation
+    float diamanteY_Proyectado = (diamondY.get(i) * cos(PI/3)) + height / 2;
     float obsX = diamanteX_Proyectado - diamondHitboxW / 2;
     float obsY = diamanteY_Proyectado - diamondHitboxH / 2;
     if (hitboxPersonaje.colisionaCon(obsX, obsY, diamondHitboxW, diamondHitboxH)) {
@@ -362,11 +371,12 @@ boolean checkObstacleCollision() {
   float obstacleHitboxH = 70.0;
   for (int i = obstacleX.size() - 1; i >= 0; i--) {
     float obstacleX_Proyectado = obstacleX.get(i) + width / 2;
-    float obstacleY_Proyectado = obstacleY.get(i) + height / 2;
+    // Apply isometric projection: account for rotateX(PI/3) transformation
+    float obstacleY_Proyectado = (obstacleY.get(i) * cos(PI/3)) + height / 2;
     float obsX = obstacleX_Proyectado - obstacleHitboxW / 2;
     float obsY = obstacleY_Proyectado - obstacleHitboxH / 2;
     if (hitboxPersonaje.colisionaCon(obsX, obsY, obstacleHitboxW, obstacleHitboxH)) {
-      
+
       return true;
     }
   }

@@ -14,7 +14,9 @@ PImage terraintxt;
 void setupTerrain(){
     grasstxt = loadImage("grass.png");
     skytxt = loadImage("sky.png");
+    skytxt.resize(width, height); // Resize to match screen size
     endskytxt = loadImage("end.png");
+    endskytxt.resize(width, height); // Resize to match screen size
     endtxt = loadImage("end-stone.jpg");
 }
 
