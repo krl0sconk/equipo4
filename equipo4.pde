@@ -15,7 +15,6 @@ float deltaTime = 0;
 int lastFrameTime = 0;
 float targetFPS = 60.0;
 
-
 int PHASE_NORMAL = 0;
 int PHASE_BOSS = 1;
 int gamePhase = PHASE_NORMAL;
@@ -31,8 +30,8 @@ void setup() {
   // Use fullScreen for Android/Desktop compatibility
   fullScreen(P3D);
 
-  // Initialize hitbox offset after screen size is determined
-  HITBOX_OFFSET_Y = height / 2;
+  // Initialize hitbox offset - adjusted for player's visual position after transformations
+  HITBOX_OFFSET_Y = 120;
 
   CoinIcon = loadImage("DiamondIcon.png");
   HeartIcon = loadImage("HeartIcon.png");
@@ -49,13 +48,8 @@ void setup() {
   hitboxPersonaje = new HitboxPlayer(personajeX, height /2, HITBOX_W, HITBOX_H, HITBOX_OFFSET_X, HITBOX_OFFSET_Y);
   textureMode(NORMAL);
   noSmooth();
-  level = 1;
+  level = 2;
   vidas = vidasIniciales;
-
-  // Force lower pixel density for better performance on Android
-  // pixelDensity(1) uses 1:1 pixel mapping (no high-DPI scaling)
-  // Combined with noSmooth(), this significantly reduces rendering load
-  pixelDensity(1);
 
   lastFrameTime = millis();
 }
@@ -185,35 +179,41 @@ void draw() {
   textSize(32);
   text("Puntuacion Final: " + score, width/2, height/2 - 20);
 
+  // Use CENTER mode for proper button/text alignment
+  rectMode(CENTER);
+
   float btnTryW = 200;
   float btnTryH = 60;
-  float btnTryX = width/2 - btnTryW/2;
   float btnTryY = height/2 + 50;
+  float btnTryX = width/2 - btnTryW/2;
   if (mouseX > btnTryX && mouseX < btnTryX + btnTryW &&
       mouseY > btnTryY && mouseY < btnTryY + btnTryH) {
     fill(100, 200, 100);
   } else {
     fill(50, 150, 50);
   }
-  rect(btnTryX, btnTryY, btnTryW, btnTryH, 10);
+  rect(width/2, btnTryY + btnTryH/2, btnTryW, btnTryH, 10);
   fill(255);
   textSize(28);
-  text("TRY AGAIN", width/2, btnTryY + btnTryH/2 + 5);
+  text("TRY AGAIN", width/2, btnTryY + btnTryH/2);
 
   float btnMenuW = 280;
   float btnMenuH = 60;
-  float btnMenuX = width/2 - btnMenuW/2;
   float btnMenuY = height/2 + 130;
+  float btnMenuX = width/2 - btnMenuW/2;
   if (mouseX > btnMenuX && mouseX < btnMenuX + btnMenuW &&
       mouseY > btnMenuY && mouseY < btnMenuY + btnMenuH) {
     fill(100, 100, 200);
   } else {
     fill(50, 50, 150);
   }
-  rect(btnMenuX, btnMenuY, btnMenuW, btnMenuH, 10);
+  rect(width/2, btnMenuY + btnMenuH/2, btnMenuW, btnMenuH, 10);
   fill(255);
   textSize(24);
-  text("MENU PRINCIPAL", width/2, btnMenuY + btnMenuH/2 + 5);
+  text("MENU PRINCIPAL", width/2, btnMenuY + btnMenuH/2);
+
+  // Restore CORNER mode
+  rectMode(CORNER);
   textAlign(LEFT, BASELINE);
   } else if (estado == 5) {
     fill(0, 255, 0);
@@ -287,32 +287,32 @@ void mousePressed() {
   } else if (estado == 3) {
     if (mouseX < 70 && mouseY < 70) {
       estado = 0;
-    } 
-      //Funciones boton volumen
-    if ( mouseX > width/2 - btnVolumenW/2 && mouseX < width/2 + btnVolumenW/2 && mouseY > btnVolumenY - btnVolumenH/2 && mouseY < btnVolumenY + btnVolumenH){
+    }
+    //Funciones boton volumen - adjusted for CENTER mode
+    if ( mouseX > width/2 - btnVolumenW/2 && mouseX < width/2 + btnVolumenW/2 && mouseY > btnVolumenY && mouseY < btnVolumenY + btnVolumenH){
         if (indiceVolumen < 2) {
               indiceVolumen += 1;
         } else {
             indiceVolumen = 0;
         }
     }
-    
-    //funciones boton Vida
-     if ( mouseX > width/2 - btnVolumenW/2 && mouseX < width/2 + btnVolumenW/2 && mouseY > btnVidasY - btnVidasH/2 && mouseY < btnVidasY + btnVidasH){
+
+    //funciones boton Vida - adjusted for CENTER mode
+     if ( mouseX > width/2 - btnVidasW/2 && mouseX < width/2 + btnVidasW/2 && mouseY > btnVidasY && mouseY < btnVidasY + btnVidasH){
         if (indiceVidas < 2) {
           indiceVidas += 1;
         } else {
           indiceVidas = 0;
         }
     }
-    //funcion boton guardar y volver
-    if (mouseX > width/2 - btnVolumenW/2 && mouseX < width/2 + btnVolumenW/2 &&  mouseY >btnGuardarY - btnGuardarH/2 && mouseY < btnGuardarY + btnGuardarH){
-        
+    //funcion boton guardar y volver - adjusted for CENTER mode
+    if (mouseX > width/2 - btnGuardarW/2 && mouseX < width/2 + btnGuardarW/2 && mouseY > btnGuardarY && mouseY < btnGuardarY + btnGuardarH){
+
       estado = 0;
-        
+
     }
-   
-    
+
+
   } else if (estado == 4) {
     float btnTryW = 200;
     float btnTryH = 60;
@@ -325,7 +325,7 @@ void mousePressed() {
       resetGame();
     }
 
-    float btnMenuW = 220;
+    float btnMenuW = 280; // Fixed: was 220, but button draws at 280
     float btnMenuH = 60;
     float btnMenuX = width/2 - btnMenuW/2;
     float btnMenuY = height/2 + 130;

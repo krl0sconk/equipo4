@@ -90,31 +90,40 @@ void Tutorial() {
 
 void Configuracion() {
   background(fondo[level]);
-  textAlign(CENTER);
+  textAlign(CENTER, CENTER);
   fill(255);
   volumen =  nivelesVolumen[indiceVolumen];
   vidasIniciales = opcionesVidas[indiceVidas];
   // --- Botones ---
   image(ret, 35, 35);
   noStroke();
+
+  // Use CENTER mode for proper button/text alignment
+  rectMode(CENTER);
+
   fill(100);
-  rect(width/2 - btnVolumenW/2, btnVolumenY, btnVolumenW, btnVolumenH, 10);
-  rect(width/2 - btnVidasW/2, btnVidasY, btnVidasW, btnVidasH, 10);
-  
+  rect(width/2, btnVolumenY + btnVolumenH/2, btnVolumenW, btnVolumenH, 10);
+  rect(width/2, btnVidasY + btnVidasH/2, btnVidasW, btnVidasH, 10);
+
   // Botón de guardar (verde)
   fill(0, 255, 100);
-  rect(width/2 - btnGuardarW/2, btnGuardarY, btnGuardarW, btnGuardarH, 10);
+  rect(width/2, btnGuardarY + btnGuardarH/2, btnGuardarW, btnGuardarH, 10);
+
+  // Restore CORNER mode for other drawing
+  rectMode(CORNER);
+
   fill(255);
-  text("GUARDAR Y VOLVER", width/2, btnGuardarY + 32);
-  
+  textSize(24);
+  text("GUARDAR Y VOLVER", width/2, btnGuardarY + btnGuardarH/2);
+  text("Volumen: " + volumen, width/2, btnVolumenY + btnVolumenH/2);
+  text("Vidas iniciales: " + vidasIniciales, width/2, btnVidasY + btnVidasH/2);
+
   textSize(16);
   fill(200);
   text("Haz clic en los botones para cambiar las opciones", width/2, height - 50);
-   textSize(40);
+
+  textSize(40);
   text("Configuracion", width/2, 150);
-  
-  textSize(24);
-  text("Volumen: " + volumen, width/2 , btnVolumenY + 30);
-  text("Vidas iniciales: " + vidasIniciales, width/2 , btnVidasY + 30);
-  
+
+  textAlign(LEFT, BASELINE);
 }

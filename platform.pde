@@ -30,8 +30,8 @@ void drawPlatform(int level) {
   offsetY += offsetSpeed * deltaTime;
   vertex(-120, -400, 0, 0 - offsetY);
   vertex(120, -400, 6, 0 - offsetY);
-  vertex(120, 700, 6, 6 - offsetY);
-  vertex(-120, 700, 0, 6 - offsetY);
+  vertex(120, 900, 6, 6 - offsetY);
+  vertex(-120, 900, 0, 6 - offsetY);
 
   endShape();
   popMatrix();

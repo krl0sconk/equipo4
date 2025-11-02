@@ -55,9 +55,14 @@ void moverPersonaje() {
     personajeX -= velocidad * deltaTime;
   }
 
+  // Mouse/touch movement - but not when clicking shoot button during boss phase
   if (mousePressed) {
-    float distancia = mouseX - personajeX;
-    personajeX += distancia * 0.1;
+    // Skip mouse movement if we're in boss phase and mouse is on shoot button
+    boolean isOnShootButton = (gamePhase == PHASE_BOSS && isTouchOnShootButton(mouseX, mouseY));
+    if (!isOnShootButton) {
+      float distancia = mouseX - personajeX;
+      personajeX += distancia * 0.1;
+    }
   }
 
   personajeX = constrain(personajeX, limiteIzq, limiteDer);
