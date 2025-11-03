@@ -1,5 +1,6 @@
 PImage fondo[] = new PImage[4];
 PFont font;
+PImage lvlSB ;
 PImage title, setw, ret, chr, tabla;
 String nivelVolumen = "MEDIO";
 String[] nivelesVolumen = {"BAJO", "MEDIO", "ALTO"};
@@ -9,7 +10,7 @@ String volumen;
 // Opciones de vidas
 int[] opcionesVidas = {1, 3, 5};
 int indiceVidas; // 3 vidas
-int vidasIniciales = opcionesVidas[indiceVidas];
+int vidasIniciales = opcionesVidas[1];
 
 int  btnVolumenY = 250, btnVolumenW = 280, btnVolumenH = 50;
 int  btnVidasY = 330, btnVidasW = 280, btnVidasH = 50;
@@ -27,6 +28,7 @@ void setupmenu() {
   chr.resize(100, 140);
   tabla = loadImage("esc_md.jpg");
   tabla.resize(350, 250);
+  lvlSB = loadImage("LvlSelectorBackground.png");
   font = createFont("minecraft_font.ttf", 16);
   indiceVolumen = 1;
   indiceVidas = 1;
@@ -109,4 +111,28 @@ void Configuracion() {
   text("Volumen: " + volumen, width/2 , btnVolumenY + 30);
   text("Vidas iniciales: " + vidasIniciales, width/2 , btnVidasY + 30);
   
+}
+
+void Seleccion(){
+  
+  background(lvlSB);
+  image(ret, 35, 35);
+  textSize(28);
+  textAlign(CENTER);
+  fill(255);
+  text("Lvl 1.", 230, 505);
+  if (prog >= 2){
+    fill(255);
+    text("Lvl 2.", 650, 505);
+  } else {
+    fill(255, 0, 0);
+    text("???", 650, 505);
+  }
+  if (prog >=3){
+    fill(255);
+    text("Lvl 3.", 1055, 505);
+  } else {
+    fill(255, 0, 0);
+    text("???", 1055, 505);
+  }
 }

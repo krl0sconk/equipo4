@@ -3,6 +3,7 @@ int estado = 0;
 int score = 0;
 int vidas;
 int i;
+int prog;
 HitboxPlayer hitboxPersonaje;
 float HITBOX_W = 10.0;
 float HITBOX_H = 10.0;
@@ -46,7 +47,7 @@ void setup() {
   noSmooth();
   level = 1;
   vidas = vidasIniciales;
-  
+  prog = 1;
   lastFrameTime = millis();
 }
 
@@ -175,11 +176,12 @@ void draw() {
   fill(255, 50, 50);
   textSize(72);
   textAlign(CENTER, CENTER);
+  hint(DISABLE_DEPTH_TEST);
   text("GAME OVER", width/2, height/2 - 100);
   fill(255);
   textSize(32);
   text("Puntuacion Final: " + score, width/2, height/2 - 20);
-
+  hint(ENABLE_DEPTH_TEST);
   float btnTryW = 200;
   float btnTryH = 60;
   float btnTryX = width/2 - btnTryW/2;
@@ -210,7 +212,9 @@ void draw() {
   textSize(24);
   text("MENU PRINCIPAL", width/2, btnMenuY + btnMenuH/2 + 5);
   textAlign(LEFT, BASELINE);
-  } else if (estado == 5) {
+  } else if (estado == 5) 
+    {
+      hint(DISABLE_DEPTH_TEST);
     fill(0, 255, 0);
     textSize(64);
     textAlign(CENTER, CENTER);
@@ -219,6 +223,7 @@ void draw() {
     textSize(32);
     text("Final Score: " + score, width/2, height/2 + 80);
     textAlign(LEFT, BASELINE);
+    hint(ENABLE_DEPTH_TEST);
   } else if (estado == 6){
       drawTerrain(1);
       drawPlatform(1);
@@ -236,6 +241,8 @@ void draw() {
       text("2. Las ´<-´ y ´->´ ", width/2 - 392, height/2 - 214);
       text("3. El mouse ", width/2 - 392, height/2-176);
   
+  } else if ( estado == 7){
+    Seleccion();
   }
 }
 
@@ -243,7 +250,7 @@ void mousePressed() {
   if (estado == 0) {
     if (mouseX > width/2 - 85 && mouseX < width/2 + 80 &&
         mouseY > 480 && mouseY < 530) {
-      estado = 1;
+      estado = 7;
       resetGame();
     }
     if (mouseX > width/2 - 20 && mouseX < width/2 + 20 &&
@@ -320,6 +327,23 @@ void mousePressed() {
       estado = 0;
     } 
  
+    } else if(estado == 7){
+      // Interacciones relacionadas la seleccion de nivel
+       if( prog >= 1 && mouseX > 200 && mouseX < 260 && mouseY > 480 && mouseY < 520){
+       level = 1;
+       estado = 1;
+       }
+       if (prog >=2  && mouseX > 600 && mouseX < 660 && mouseY > 480 && mouseY < 520){
+       level = 2;
+       estado = 1;
+       }
+       if ( prog >=3  && mouseX > 1000 && mouseX < 1060 && mouseY > 480 && mouseY < 520){
+       level = 3;
+       estado = 1;
+   }
+     if (mouseX < 70 && mouseY < 70) {
+      estado = 0;
+    }
     }
 }
 
@@ -379,7 +403,11 @@ void clearExistingObjects() {
 void onBossDefeated() {
   estado = 5;
   score += 100;
-  if (level < 3) {
+  //Sistema de progresion
+  
+  //Programacion puesta para que los fondos iteren al progresar, pero los niveles se seleccionan de igual forma
+    if (level < 3 && level == prog) {
+    prog +=  1;
     level +=1;
   } else {
     level = 1;
