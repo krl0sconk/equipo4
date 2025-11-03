@@ -56,7 +56,7 @@ void drawProjectiles() {
 
     rotateX(PI / 2);
     rotateY(PI / 2);
-    scale(8);
+    scale(0.2);
     shape(arrowModel);
 
     popMatrix();
