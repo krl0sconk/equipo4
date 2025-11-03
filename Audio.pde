@@ -1,3 +1,4 @@
+import ddf.minim.*;
 Minim minim;
 
 AudioPlayer musicaMenu;
