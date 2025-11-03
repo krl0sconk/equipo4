@@ -4,7 +4,8 @@ PImage lvlSB ;
 PImage title, setw, ret, chr, tabla;
 String nivelVolumen = "MEDIO";
 String[] nivelesVolumen = {"BAJO", "MEDIO", "ALTO"};
-int indiceVolumen ;  // MEDIO
+float[] moderacionVolumen = {0.1 , 0.5, 0.8};
+int indiceVolumen = 0 ;  // MEDIO
 String volumen;
 
 // Opciones de vidas
@@ -18,6 +19,7 @@ int  btnGuardarY = 410, btnGuardarW = 280, btnGuardarH = 50;
 
 
 void setupmenu() {
+ 
   title = loadImage("title.png");
   title.resize(500, 500);
   setw = loadImage("setwh.png");
@@ -40,6 +42,8 @@ void setupmenu() {
 }
 
 void mostrarMenu() {
+  
+  reproducirMusica(musicaMenu);
   background(fondo[level]);
   imageMode(CENTER);
   image(title, width/2, height/2 - 50);
@@ -114,7 +118,7 @@ void Configuracion() {
 }
 
 void Seleccion(){
-  
+  reproducirMusica(musicaSeleccionarNivel);
   background(lvlSB);
   image(ret, 35, 35);
   textSize(28);
