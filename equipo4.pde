@@ -329,15 +329,15 @@ void mousePressed() {
  
     } else if(estado == 7){
       // Interacciones relacionadas la seleccion de nivel
-       if( prog >= 1 && mouseX > 200 && mouseX < 260 && mouseY > 480 && mouseY < 520){
+       if( prog >= 1 && mouseX > 200 && mouseX < 260 && mouseY > 280 && mouseY < 520){
        level = 1;
        estado = 1;
        }
-       if (prog >=2  && mouseX > 600 && mouseX < 660 && mouseY > 480 && mouseY < 520){
+       if (prog >=2  && mouseX > 600 && mouseX < 660 && mouseY > 280 && mouseY < 520){
        level = 2;
        estado = 1;
        }
-       if ( prog >=3  && mouseX > 1000 && mouseX < 1060 && mouseY > 480 && mouseY < 520){
+       if ( prog >=3  && mouseX > 1000 && mouseX < 1060 && mouseY > 280 && mouseY < 520){
        level = 3;
        estado = 1;
    }
