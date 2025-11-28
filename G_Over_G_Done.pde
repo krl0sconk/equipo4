@@ -9,7 +9,7 @@ void gameOver(){
   fill(255);
   textSize(32);
   text("Puntuacion Final: " + score, width/2, height/2 - 20);
-  hint(ENABLE_DEPTH_TEST);
+  
   float btnTryW = 200;
   float btnTryH = 60;
   float btnTryX = width/2 - btnTryW/2;
@@ -40,6 +40,7 @@ void gameOver(){
   textSize(24);
   text("MENU PRINCIPAL", width/2, btnMenuY + btnMenuH/2 + 5);
   textAlign(LEFT, BASELINE);
+  hint(ENABLE_DEPTH_TEST);
 }
 
 void gameDone(){
